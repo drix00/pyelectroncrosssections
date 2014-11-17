@@ -25,8 +25,8 @@ import scipy.stats
 import scipy.integrate
 
 # Local modules.
-import DrixUtilities.Colors as Colors
-from DrixUtilities.NumericConversion import cm2Tonm2
+import pyHendrixDemersTools.Colors as Colors
+from pyHendrixDemersTools.NumericConversion import cm2Tonm2
 
 # Project modules
 
@@ -414,5 +414,5 @@ def run():
     plt.show()
 
 if __name__ == '__main__': #pragma: no cover
-    import DrixUtilities.Runner as Runner
+    import pyHendrixDemersTools.Runner as Runner
     Runner.Runner().run(runFunction=run)

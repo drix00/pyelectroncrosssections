@@ -18,7 +18,7 @@ __svnId__ = "$Id: tests.py 2180 2011-01-28 04:14:22Z hdemers $"
 # Third party modules.
 
 # Local modules.
-import DrixUtilities.Testings as Testings
+import pyHendrixDemersTools.Testings as Testings
 
 # Globals and constants variables.
 
