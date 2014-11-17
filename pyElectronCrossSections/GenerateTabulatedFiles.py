@@ -24,9 +24,9 @@ import scipy.integrate as integrate
 import matplotlib.pyplot as plt
 
 # Local modules.
-import casinoTools.FileFormat.casino3.Models.CrossSectionFile as CrossSectionFile
+import casinotools.fileformat.casino3.Models.CrossSectionFile as CrossSectionFile
 import DatabasesTools.ElementProperties as ElementProperties
-import DrixUtilities.Files as Files
+import pyHendrixDemersTools.Files as Files
 
 # Globals and constants variables.
 
@@ -168,5 +168,5 @@ class GenerateTabulatedFiles(object):
         return filename
 
 if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
+    import pyHendrixDemersTools.Runner as Runner
     Runner.Runner().run(runFunction=None)

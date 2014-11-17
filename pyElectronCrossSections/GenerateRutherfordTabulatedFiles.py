@@ -20,9 +20,9 @@ import os
 # Third party modules.
 
 # Local modules.
-import DrixUtilities.Files as Files
-import eecsTools.GenerateInterpolationPoints as GenerateInterpolationPoints
-from eecsTools.Models.RutherfordReimerTem import totalRelativisticScreenedElasticCrossSectionHenocMaurice_nm2
+import pyHendrixDemersTools.Files as Files
+import pyElectronCrossSections.GenerateInterpolationPoints as GenerateInterpolationPoints
+from pyElectronCrossSections.Models.RutherfordReimerTem import totalRelativisticScreenedElasticCrossSectionHenocMaurice_nm2
 
 # Globals and constants variables.
 
@@ -121,7 +121,7 @@ def _runElement(atomicNumber):
     return tabulatedFiles.getEnergiesGrid()
 
 def _getOutputPath():
-    configurationFilepath = Files.getCurrentModulePath(__file__, "eecsTools.cfg")
+    configurationFilepath = Files.getCurrentModulePath(__file__, "pyElectronCrossSections.cfg")
     outputPath = Files.getResultsSherbrookePath(configurationFilepath, "calculations/Rutherford")
 
     if not os.path.isdir(outputPath):
@@ -130,5 +130,5 @@ def _getOutputPath():
     return outputPath
 
 if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
+    import pyHendrixDemersTools.Runner as Runner
     Runner.Runner().run(runFunction=runAllElements)

@@ -299,7 +299,7 @@ def _interpolationComparisonRutherford(atomicNumbers, energies_eV):
 def run():
     logging.getLogger().setLevel(logging.DEBUG)
 
-    configurationFilepath = "eecsTools.cfg"
+    configurationFilepath = "pyElectronCrossSections.cfg"
     mottTabulated = MottTabulatedFactory.getMottTabulated(configurationFilepath=configurationFilepath)
 
     atomicNumbers = mottTabulated.getAtomicNumbers()
@@ -322,5 +322,5 @@ def run():
     plt.show()
 
 if __name__ == '__main__':    #pragma: no cover
-    import DrixUtilities.Runner as Runner
+    import pyHendrixDemersTools.Runner as Runner
     Runner.Runner().run(runFunction=run)
