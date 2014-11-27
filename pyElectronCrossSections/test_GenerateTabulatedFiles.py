@@ -20,7 +20,7 @@ import logging
 # Third party modules.
 
 # Local modules.
-import GenerateTabulatedFiles
+import pyElectronCrossSections.GenerateTabulatedFiles as GenerateTabulatedFiles
 
 # Globals and constants variables.
 

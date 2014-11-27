@@ -18,9 +18,12 @@ __svnId__ = "$Id: tests.py 2180 2011-01-28 04:14:22Z hdemers $"
 # Third party modules.
 
 # Local modules.
-import pyHendrixDemersTools.Testings as Testings
 
 # Globals and constants variables.
 
 if __name__ == "__main__":
-    Testings.runTestSuiteWithCoverage(packageName=__file__)
+    import nose
+    import sys
+    argv = sys.argv
+    argv.append("--cover-package=DatabasesTools")
+    nose.main(argv=argv)

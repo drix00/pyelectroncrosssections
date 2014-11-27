@@ -25,7 +25,7 @@ from scipy import integrate
 import matplotlib.pyplot as plt
 
 # Local modules.
-from Models.RutherfordReimerTem import totalRelativisticScreenedElasticCrossSectionHenocMaurice_nm2
+from pyElectronCrossSections.Models.RutherfordReimerTem import totalRelativisticScreenedElasticCrossSectionHenocMaurice_nm2
 
 # Globals and constants variables.
 SCALE_LINEAR = "linear"

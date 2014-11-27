@@ -20,7 +20,7 @@ import logging
 # Third party modules.
 
 # Local modules.
-import GenerateRutherfordTabulatedFiles
+import pyElectronCrossSections.GenerateRutherfordTabulatedFiles as GenerateRutherfordTabulatedFiles
 
 # Globals and constants variables.
 
