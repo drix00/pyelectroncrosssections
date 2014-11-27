@@ -282,12 +282,12 @@ def plotComparaisonPolarAngleRandomNumber():
     energy_keV = 1.0
 
     ratio = ratioBrowning1994(atomicNumber, energy_keV)
-    print "Ratio = %.4f" % (ratio)
-    print "Ratio/(1 + Ratio) = %.4f" % (ratio/(1.0 + ratio))
+    print("Ratio = %.4f" % (ratio))
+    print("Ratio/(1 + Ratio) = %.4f" % (ratio/(1.0 + ratio)))
 
-    polarAnglesOneRandomNumber_rad = [computePolarAngleOneRandomNumber_rad(atomicNumber, energy_keV) for _i in xrange(numberSamples)]
+    polarAnglesOneRandomNumber_rad = [computePolarAngleOneRandomNumber_rad(atomicNumber, energy_keV) for _i in range(numberSamples)]
 
-    polarAnglesTwoRandomNumbers_rad = [computePolarAngleTwoRandomNumbers_rad(atomicNumber, energy_keV) for _i in xrange(numberSamples)]
+    polarAnglesTwoRandomNumbers_rad = [computePolarAngleTwoRandomNumbers_rad(atomicNumber, energy_keV) for _i in range(numberSamples)]
 
     plt.figure()
 
@@ -313,10 +313,10 @@ def plotComputeDifferentialCrossSection():
     total_A2 = total_nm2 * 1.0e2
 
     ratio = ratioBrowning1994(atomicNumber, energy_keV)
-    print "Ratio = %.4f" % (ratio)
-    print "Ratio/(1 + Ratio) = %.4f" % (ratio/(1.0 + ratio))
+    print("Ratio = %.4f" % (ratio))
+    print("Ratio/(1 + Ratio) = %.4f" % (ratio/(1.0 + ratio)))
 
-    polarAnglesTwoRandomNumbers_rad = [computePolarAngleTwoRandomNumbers_rad(atomicNumber, energy_keV) for _i in xrange(numberSamples)]
+    polarAnglesTwoRandomNumbers_rad = [computePolarAngleTwoRandomNumbers_rad(atomicNumber, energy_keV) for _i in range(numberSamples)]
 
     histogram, low_range, binsize, _extrapoints = scipy.stats.histogram(polarAnglesTwoRandomNumbers_rad, numbins=numberBins)
 
@@ -379,7 +379,7 @@ def computeMeanThetaTotalBrowning(atomicNumber, energy_eV):
     total_cm2 = totalElasticCrossSectionBrowning1991a_cm2(atomicNumber, energy_keV)
     total_nm2 = cm2Tonm2(total_cm2)
 
-    polarAnglesTwoRandomNumbers_rad = [computePolarAngleTwoRandomNumbers_rad(atomicNumber, energy_keV) for _i in xrange(numberSamples)]
+    polarAnglesTwoRandomNumbers_rad = [computePolarAngleTwoRandomNumbers_rad(atomicNumber, energy_keV) for _i in range(numberSamples)]
 
     histogram, low_range, binsize, _extrapoints = scipy.stats.histogram(polarAnglesTwoRandomNumbers_rad, numbins=numberBins)
 

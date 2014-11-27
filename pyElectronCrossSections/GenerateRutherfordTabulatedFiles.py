@@ -90,7 +90,7 @@ class GenerateRutherfordTabulatedFiles(object):
 def runCarbon():
     atomicNumber = 6
 
-    print _runElement(atomicNumber)
+    print(_runElement(atomicNumber))
 
 def runAllElements():
     energiesGridList = {}

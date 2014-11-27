@@ -20,7 +20,7 @@ import logging
 # Third party modules.
 
 # Local modules.
-import GenerateInterpolationPoints
+import pyElectronCrossSections.GenerateInterpolationPoints as GenerateInterpolationPoints
 
 # Globals and constants variables.
 

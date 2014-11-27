@@ -20,7 +20,7 @@ import logging
 # Third party modules.
 
 # Local modules.
-import RutherfordReimerTem
+import pyElectronCrossSections.Models.RutherfordReimerTem as RutherfordReimerTem
 
 # Globals and constants variables.
 
