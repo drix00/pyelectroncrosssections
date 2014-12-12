@@ -25,7 +25,7 @@ import matplotlib.pyplot as plt
 
 # Local modules.
 import casinotools.fileformat.casino3.Models.CrossSectionFile as CrossSectionFile
-import DatabasesTools.ElementProperties as ElementProperties
+import pySpecimenTools.ElementProperties as ElementProperties
 import pyHendrixDemersTools.Files as Files
 
 # Globals and constants variables.
