@@ -25,7 +25,7 @@ from scipy import interpolate
 
 # Local modules.
 import DatabasesTools.Czyzewski90.MottTabulatedFactory as MottTabulatedFactory
-import Models.RutherfordReimerTem as RutherfordReimerTem
+import pyElectronCrossSections.Models.RutherfordReimerTem as RutherfordReimerTem
 
 # Globals and constants variables.
 
