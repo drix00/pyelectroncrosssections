@@ -41,7 +41,7 @@ def getResultPath():
 #        print resultPath
         return resultPath
     except IndexError:
-        print "Usage is:" + sys.argv[0] + " resultPath"
+        print("Usage is:" + sys.argv[0] + " resultPath")
         sys.exit()
 
 ################################################################################
