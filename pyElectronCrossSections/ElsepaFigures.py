@@ -18,6 +18,7 @@ import os.path
 
 # Third party modules.
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Local modules.
 import DatabasesTools.Casino3.ElsepaBinaryFile as ElsepaBinaryFile
@@ -25,7 +26,7 @@ import DatabasesTools.Casino3.ElsepaBinaryFile as ElsepaBinaryFile
 # Globals and constants variables.
 
 def run():
-    path = r"C:\hdemers\data\Casino3\ELDB"
+    path = r"D:\work\data\Casino3\ELDB"
 
     atomicNumbers = range(1, 99+1)
     totalCS_nm2 = {}
@@ -41,15 +42,28 @@ def run():
 
             totalCS_nm2[atomicNumber][energy_keV] = total
 
-
-    energy_keV = 200.0
+    energy_keV = 20.0
     y = []
     for atomicNumber in atomicNumbers:
         y.append(totalCS_nm2[atomicNumber][energy_keV])
 
     plt.figure()
-
+    plt.title(r"$E_{0} = %.1f$" % (energy_keV))
     plt.plot(atomicNumbers, y)
+    plt.xlabel('Z')
+    plt.ylabel(r"$\sigma_{T}$ (nm$^{2}$)")
+
+    energies_keV = sorted(totalCS_nm2[atomicNumber].keys())
+    atomicNumber = 29
+    y = []
+    for energy_keV in energies_keV:
+        y.append(totalCS_nm2[atomicNumber][energy_keV])
+
+    plt.figure()
+    plt.title("Z = %i" % (atomicNumber))
+    plt.loglog(energies_keV, y)
+    plt.xlabel('energy (keV)')
+    plt.ylabel(r"$\sigma_{T}$ (nm$^{2}$)")
 
     plt.show()
 
