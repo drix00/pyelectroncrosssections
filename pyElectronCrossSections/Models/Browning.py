@@ -390,7 +390,7 @@ def computeMeanThetaTotalBrowning(atomicNumber, energy_eV):
     thetas_rad = np.arange(low_range, max_range, binsize)
 
     #partialSinThetas_nm2_sr = [2.0*np.pi*x1*np.sin(x2) for x1,x2 in zip(histogram, thetas_rad)]
-    partialSinThetas_nm2_sr = [x1 for x1,x2 in zip(histogram, thetas_rad)]
+    partialSinThetas_nm2_sr = [x1 for x1, x2 in zip(histogram, thetas_rad)]
     totalCalculated_nm2 = scipy.integrate.trapz(partialSinThetas_nm2_sr, thetas_rad)
 
     #partialSinThetas_nm2_sr = [2.0*np.pi*x1*x2*np.sin(x2) for x1,x2 in zip(histogram, thetas_rad)]
@@ -401,7 +401,7 @@ def computeMeanThetaTotalBrowning(atomicNumber, energy_eV):
     return meanTheta_rad, totalCalculated_nm2
 
 def run():
-    #plotFigure2Browning1991a()
+    plotFigure2Browning1991a()
 
     #plotFigure3Browning1991()
     #plotFigure4Browning1991()
@@ -409,10 +409,9 @@ def run():
     #plotComparaisonRatioMCXRayError()
 
     #plotComparaisonPolarAngleRandomNumber()
-    plotComputeDifferentialCrossSection()
+    #plotComputeDifferentialCrossSection()
 
     plt.show()
 
 if __name__ == '__main__': #pragma: no cover
-    import pyHendrixDemersTools.Runner as Runner
-    Runner.Runner().run(runFunction=run)
+    run()
