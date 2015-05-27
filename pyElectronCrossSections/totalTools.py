@@ -14,7 +14,6 @@ __svnId__ = "$Id: totalTools.py 2636 2011-12-15 21:58:59Z hdemers $"
 
 import sys
 import os
-import dircache
 import logging
 
 ################################################################################
@@ -144,7 +143,7 @@ def readZData(filename):
                 dataDict[atomicNumber][energy]["sigma"] = sigma
 
         else:
-            print "Comment line."
+            print("Comment line.")
 
     return dataDict
 
@@ -334,13 +333,13 @@ def createPlot(dataModel, resultPath, name, yIndex, xLog=False, yLog=False):
     #    print resultPath + outputFilename
         g.writeEPSfile(resultPath + outputFilename)
         g.writePDFfile(resultPath + outputFilename)
-        print outputFilename
+        print(outputFilename)
     except ImportError:
         logging.error("pyx module not found")
 
 ################################################################################
 def createPlotZ(totalFileList, atomicNumberList, resultPath):
-    print "Create plot Z."
+    print("Create plot Z.")
 
     for atomicNumber in atomicNumberList:
 #    for atomicNumber in range(1,2):
@@ -384,7 +383,7 @@ def createPlotZ(totalFileList, atomicNumberList, resultPath):
         createPlot(dataModel, resultPath, outputFilename, 5, xLog=True)
 ################################################################################
 def createPlotE(totalFileList, energyList, resultPath):
-    print "Create plot E."
+    print("Create plot E.")
 
 #    for energy in energyList[:1]:
     for energy in energyList:
@@ -448,7 +447,7 @@ def intersect(array):
 
 ################################################################################
 def readData(totalFileList, resultPath):
-    print "Read data from file."
+    print("Read data from file.")
     typeKey = "Total_3D"
     filenameKey = "filename"
     dataKey = "data"
@@ -478,6 +477,8 @@ def readData(totalFileList, resultPath):
     return totalFileList, atomicNumberList, energyList
 
 def run():
+    import dircache
+
     resultPath = getResultPath()
     fileList = dircache.listdir(resultPath)
 
