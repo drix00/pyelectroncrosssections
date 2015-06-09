@@ -2,3 +2,4 @@ syntax: glob
 .coverage
 *.pyc
 pyElectronCrossSections.egg-info/
+testdata/
