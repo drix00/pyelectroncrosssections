@@ -12,3 +12,13 @@ __license__ = ""
 __svnRevision__ = "$Revision$"
 __svnDate__ = "$Date$"
 __svnId__ = "$Id$"
+
+import os.path
+
+def current_module_path(modulePath, relativePath=""):
+    basepath = os.path.dirname(modulePath)
+
+    filepath = os.path.join(basepath, relativePath)
+    filepath = os.path.normpath(filepath)
+
+    return filepath
