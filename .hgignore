@@ -4,3 +4,4 @@ syntax: glob
 pyElectronCrossSections.egg-info/
 testdata/
 download/
+.eggs
