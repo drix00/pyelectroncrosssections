@@ -83,7 +83,7 @@ def computeDecreasedScreeningParameter(atomicNumber, electronEnergy_keV):
 def totalElasticCrossSectionBrowning1991a_cm2(atomicNumber, electronEnergy_keV):
     """
     From browning1991a
-    Valid in the range 1 to 100 keV for all elments.
+    Valid in the range 1 to 100 keV for all elements.
     """
     Z = atomicNumber
     E = electronEnergy_keV
@@ -103,6 +103,22 @@ def totalElasticCrossSectionBrowning1991a_cm2(atomicNumber, electronEnergy_keV):
 def computeFactorU(atomicNumber, electronEnergy_keV):
     u = math.log10(8.0) * electronEnergy_keV * math.pow(atomicNumber, -1.33)
     return u
+
+def totalElasticCrossSectionBrowning1994_cm2(atomicNumber, electronEnergy_keV):
+    """
+    From browning1994
+    Valid in the range 100 eV to 30 keV for elements 1 to 92.
+    """
+    Z = atomicNumber
+    E = electronEnergy_keV
+    factor = 3.0e-18
+    powerZ = math.pow(Z, 1.7)
+    powerE = math.pow(E, 0.5)
+    nominator = factor*powerZ
+    denominator = E + 0.005 * powerZ * powerE + 0.0007 * Z * Z / powerE
+    crossSection_cm2 = nominator/denominator
+
+    return crossSection_cm2
 
 def differentialCrossSectionBrowning1991_cm2_sr(atomicNumber, electronEnergy_keV, theta_rad):
     factor = 5.21e-21
