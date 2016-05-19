@@ -5,3 +5,4 @@ pyElectronCrossSections.egg-info/
 testdata/
 download/
 .eggs
+build
