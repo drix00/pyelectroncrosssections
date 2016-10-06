@@ -477,10 +477,10 @@ def readData(totalFileList, resultPath):
     return totalFileList, atomicNumberList, energyList
 
 def run():
-    import dircache
+    import os
 
     resultPath = getResultPath()
-    fileList = dircache.listdir(resultPath)
+    fileList = os.listdir(resultPath)
 
     totalFileList = getTotalFileList(fileList)
 
