@@ -1,22 +1,35 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 .. py:currentmodule:: Models.Browning
+
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
 Cross section models from Browning.
 """
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2012 Hendrix Demers"
-__license__ = ""
+###############################################################################
+# Copyright 2019 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import math
 import os.path
 import csv
+from math import acos
 
 # Third party modules.
 import matplotlib.pyplot as plt
@@ -32,11 +45,12 @@ from pyHendrixDemersTools.NumericConversion import cm2Tonm2
 
 # Globals and constants variables.
 
-def totalElasticCrossSectionRutherford_cm2(atomicNumber, electronEnergy_keV):
+
+def total_elastic_cross_section_rutherford_cm2(atomic_number, electron_energy_keV):
     """
     From browning1991a ref 1: J
     D. C. Joy, Proceedings of the 9th European Congress of Electron Microscopy,
-    edited by P. J. Goodhew and H. G. Dickinson (Institute of Physits,
+    edited by P. J. Goodhew and H. G. Dickinson (Institute of Physics,
     Bristol, UK, 1988), p. 22.
 
     Without relativistic effects correction.
@@ -45,171 +59,181 @@ def totalElasticCrossSectionRutherford_cm2(atomicNumber, electronEnergy_keV):
     """
 
     factor = 5.21e-21
-    termA = atomicNumber*atomicNumber/(electronEnergy_keV*electronEnergy_keV)
+    term_a = atomic_number * atomic_number / (electron_energy_keV * electron_energy_keV)
 
-    alpha = computeScreeningParameter(atomicNumber, electronEnergy_keV)
-    termB = math.pi/(alpha * (1.0 + alpha))
+    alpha = compute_screening_parameter(atomic_number, electron_energy_keV)
+    term_b = math.pi/(alpha * (1.0 + alpha))
 
-    crossSection_cm2 = factor * termA * termB
+    cross_section_cm2 = factor * term_a * term_b
 
-    return crossSection_cm2
+    return cross_section_cm2
 
-def computeScreeningParameter(atomicNumber, electronEnergy_keV):
+
+def compute_screening_parameter(atomic_number, energy_keV):
     factor = 3.4e-3
-    termA = math.pow(atomicNumber, 0.67) / electronEnergy_keV
+    term_a = math.pow(atomic_number, 0.67) / energy_keV
 
-    alpha = factor * termA
+    alpha = factor * term_a
     return alpha
 
-def averageScatteringAngleRutherford_deg(atomicNumber, electronEnergy_keV):
-    alpha = computeScreeningParameter(atomicNumber, electronEnergy_keV)
 
-    averageAngle_rad = math.pi * math.sqrt(alpha) * math.sqrt(1.0 + alpha) - math.pi * alpha
-    averageAngle_deg = math.degrees(averageAngle_rad)
-    return averageAngle_deg
+def average_scattering_angle_rutherford_deg(atomic_number, energy_keV):
+    alpha = compute_screening_parameter(atomic_number, energy_keV)
 
-def averageScatteringAngleRutherfordDecreasedScreening_deg(atomicNumber, electronEnergy_keV):
-    alpha = computeDecreasedScreeningParameter(atomicNumber, electronEnergy_keV)
+    average_angle_rad = math.pi * math.sqrt(alpha) * math.sqrt(1.0 + alpha) - math.pi * alpha
+    average_angle_deg = math.degrees(average_angle_rad)
+    return average_angle_deg
 
-    averageAngle_rad = math.pi * math.sqrt(alpha) * math.sqrt(1.0 + alpha) - math.pi * alpha
-    averageAngle_deg = math.degrees(averageAngle_rad)
-    return averageAngle_deg
 
-def computeDecreasedScreeningParameter(atomicNumber, electronEnergy_keV):
-    alphaRutherford = computeScreeningParameter(atomicNumber, electronEnergy_keV)
-    alpha = (0.6 - 0.0035 * electronEnergy_keV) * alphaRutherford
+def average_scattering_angle_rutherford_decreased_screening_deg(atomic_number, energy_keV):
+    alpha = compute_decreased_screening_parameter(atomic_number, energy_keV)
+
+    average_angle_rad = math.pi * math.sqrt(alpha) * math.sqrt(1.0 + alpha) - math.pi * alpha
+    average_angle_deg = math.degrees(average_angle_rad)
+    return average_angle_deg
+
+
+def compute_decreased_screening_parameter(atomic_number, energy_keV):
+    alpha_rutherford = compute_screening_parameter(atomic_number, energy_keV)
+    alpha = (0.6 - 0.0035 * energy_keV) * alpha_rutherford
     return alpha
 
-def totalElasticCrossSectionBrowning1991a_cm2(atomicNumber, electronEnergy_keV):
+
+def total_elastic_cross_section_browning1991a_cm2(atomic_number, energy_keV):
     """
     From browning1991a
     Valid in the range 1 to 100 keV for all elements.
     """
-    Z = atomicNumber
-    E = electronEnergy_keV
+    Z = atomic_number
+    E = energy_keV
     factor = 4.7e-18
     nominator = math.pow(Z, 1.33) + 0.032*Z*Z
     denominator = E + 0.0155 * math.pow(Z, 1.33) * math.pow(E, 0.5)
-    termA = nominator/denominator
+    term_a = nominator/denominator
 
-    u = computeFactorU(atomicNumber, electronEnergy_keV)
+    u = compute_factor_u(atomic_number, energy_keV)
     denominator = 1.0 - 0.02 * math.pow(Z, 0.5) * math.exp(-u*u)
-    termB = 1.0/denominator
+    term_b = 1.0/denominator
 
-    crossSection_cm2 = factor * termA * termB
+    cross_section_cm2 = factor * term_a * term_b
 
-    return crossSection_cm2
+    return cross_section_cm2
 
-def computeFactorU(atomicNumber, electronEnergy_keV):
-    u = math.log10(8.0) * electronEnergy_keV * math.pow(atomicNumber, -1.33)
+
+def compute_factor_u(atomic_number, energy_keV):
+    u = math.log10(8.0) * energy_keV * math.pow(atomic_number, -1.33)
     return u
 
-def totalElasticCrossSectionBrowning1994_cm2(atomicNumber, electronEnergy_keV):
+
+def total_elastic_cross_section_browning1994_cm2(atomic_number, energy_keV):
     """
     From browning1994
     Valid in the range 100 eV to 30 keV for elements 1 to 92.
     """
-    Z = atomicNumber
-    E = electronEnergy_keV
+    Z = atomic_number
+    E = energy_keV
     factor = 3.0e-18
-    powerZ = math.pow(Z, 1.7)
-    powerE = math.pow(E, 0.5)
-    nominator = factor*powerZ
-    denominator = E + 0.005 * powerZ * powerE + 0.0007 * Z * Z / powerE
-    crossSection_cm2 = nominator/denominator
+    power_z = math.pow(Z, 1.7)
+    power_e = math.pow(E, 0.5)
+    nominator = factor*power_z
+    denominator = E + 0.005 * power_z * power_e + 0.0007 * Z * Z / power_e
+    cross_section_cm2 = nominator/denominator
 
-    return crossSection_cm2
+    return cross_section_cm2
 
-def differentialCrossSectionBrowning1991_cm2_sr(atomicNumber, electronEnergy_keV, theta_rad):
+
+def differential_cross_section_browning1991_cm2_sr(atomic_number, energy_keV, theta_rad):
     factor = 5.21e-21
-    Z = atomicNumber
-    E = electronEnergy_keV
-    termA = Z * Z / (E * E)
+    Z = atomic_number
+    E = energy_keV
+    term_a = Z * Z / (E * E)
 
-    alpha = computeScreeningParameterBrowning1991(atomicNumber, electronEnergy_keV)
+    alpha = compute_screening_parameter_browning1991(atomic_number, energy_keV)
     denominator = 1.0 - math.cos(theta_rad) - alpha
-    termB = 1.0 / denominator
+    term_b = 1.0 / denominator
 
     nominator = alpha * (alpha + 1.0)
     denominator = 4.2 * math.pow(E, 1.1)
-    termC = nominator / denominator
+    term_c = nominator / denominator
 
-    differentialCrossSection_cm2_sr = factor * termA * (termB + termC)
+    differential_cross_section_cm2_sr = factor * term_a * (term_b + term_c)
 
-    return differentialCrossSection_cm2_sr
+    return differential_cross_section_cm2_sr
 
-def computeScreeningParameterBrowning1991(atomicNumber, electronEnergy_keV):
-    alpha = 5.5e-4 * math.pow(atomicNumber, 0.67) / electronEnergy_keV
+
+def compute_screening_parameter_browning1991(atomic_number, energy_keV):
+    alpha = 5.5e-4 * math.pow(atomic_number, 0.67) / energy_keV
     return alpha
 
-def ratioBrowning1994(atomicNumber, electronEnergy_keV):
-    Z = atomicNumber
-    E = electronEnergy_keV
-    termA = 300.0 * math.pow(E, 1.0 - Z/2000.0) / Z
 
-    termB = math.pow(Z, 3.0) / (3.0e5 * E)
+def ratio_browning1994(atomic_number, energy_keV):
+    Z = atomic_number
+    E = energy_keV
+    term_a = 300.0 * math.pow(E, 1.0 - Z/2000.0) / Z
 
-    ratio = termA + termB
+    term_b = math.pow(Z, 3.0) / (3.0e5 * E)
+
+    ratio = term_a + term_b
     return ratio
 
-def ratioBrowning1994MCXRay(atomicNumber, electronEnergy_keV):
-    Z = atomicNumber
-    E = electronEnergy_keV
-    termA = 300.0 * math.pow(E, 1.0 - Z/2000.0) / Z
 
-    termB = math.pow(Z, 3.0) / 3.0e5 * E
+def ratio_browning1994_mcx_ray(atomic_number, energy_keV):
+    Z = atomic_number
+    E = energy_keV
+    term_a = 300.0 * math.pow(E, 1.0 - Z/2000.0) / Z
 
-    ratio = termA + termB
+    term_b = math.pow(Z, 3.0) / 3.0e5 * E
+
+    ratio = term_a + term_b
     return ratio
 
-def computePolarAngleTwoRandomNumbers_rad(atomicNumber, electronEnergy_keV):
-    ratio = ratioBrowning1994(atomicNumber, electronEnergy_keV)
 
-    r1 = np.random.random()
-    r2 = np.random.random()
+def compute_polar_angle_two_random_numbers_rad(atomic_number, energy_keV):
+    random_number1 = np.random.random()
 
-    if r1 <= ratio / (1.0 + ratio):
-        alpha = 7.0e-3 / electronEnergy_keV
-        cosTheta = 1.0 - 2.0 * alpha * r2 / (1.0 + alpha - r2)
-        theta_rad = np.arccos(cosTheta)
+    return polar_angle_rad(atomic_number, energy_keV, random_number1, random_number1)
+
+
+def compute_polar_angle_one_random_number_rad(atomic_number, energy_keV):
+    random_number1 = np.random.random()
+
+    return polar_angle_rad(atomic_number, energy_keV, random_number1, random_number1)
+
+
+def polar_angle_rad(atomic_number, energy_keV, random_number1, random_number2):
+    ratio = ratio_browning1994(atomic_number, energy_keV)
+    if random_number2 <= ratio / (1.0 + ratio):
+        alpha = 7.0e-3 / energy_keV
+        cos_theta = 1.0 - 2.0 * alpha * random_number1 / (1.0 + alpha - random_number1)
     else:
-        cosTheta = 1.0 - 2.0 * r2
-        theta_rad = np.arccos(cosTheta)
+        cos_theta = 1.0 - 2.0 * random_number1
 
+    if cos_theta > 1.0:
+        return 0.0
+    elif cos_theta < -1.0:
+        return math.pi
+
+    theta_rad = acos(cos_theta)
     return theta_rad
 
-def computePolarAngleOneRandomNumber_rad(atomicNumber, electronEnergy_keV):
-    ratio = ratioBrowning1994(atomicNumber, electronEnergy_keV)
 
-    r1 = np.random.random()
-
-    if r1 <= ratio / (1.0 + ratio):
-        alpha = 7.0e-3 / electronEnergy_keV
-        cosTheta = 1.0 - 2.0 * alpha * r1 / (1.0 + alpha - r1)
-        theta_rad = np.arccos(cosTheta)
-    else:
-        cosTheta = 1.0 - 2.0 * r1
-        theta_rad = np.arccos(cosTheta)
-
-    return theta_rad
-
-def plotFigure2Browning1991a():
+def plot_figure2_browning1991a():
     energies_keV = np.arange(0.1, 100.0, 0.1)
     elements = ['U', 'Mo', 'Al', 'C', 'H']
-    atomicNumbers = {'U': 92, 'Mo': 42, 'Al': 13, 'C': 6, 'H': 1}
+    atomic_numbers = {'U': 92, 'Mo': 42, 'Al': 13, 'C': 6, 'H': 1}
 
     colors = Colors.BaseColors(len(elements))
     plt.figure()
 
     for element in elements:
-        Z = atomicNumbers[element]
+        Z = atomic_numbers[element]
         color = colors.next()
-        crossSections_cm2 = [totalElasticCrossSectionRutherford_cm2(Z, E_keV) for E_keV in energies_keV]
-        crossSections_pm2 = np.array(crossSections_cm2)*1.0e16
-        plt.loglog(energies_keV, crossSections_pm2, '--', color=color)
-        crossSections_cm2 = [totalElasticCrossSectionBrowning1991a_cm2(Z, E_keV) for E_keV in energies_keV]
-        crossSections_pm2 = np.array(crossSections_cm2)*1.0e16
-        plt.loglog(energies_keV, crossSections_pm2, color=color, label=element)
+        cross_sections_cm2 = [total_elastic_cross_section_rutherford_cm2(Z, E_keV) for E_keV in energies_keV]
+        cross_sections_pm2 = np.array(cross_sections_cm2)*1.0e16
+        plt.loglog(energies_keV, cross_sections_pm2, '--', color=color)
+        cross_sections_cm2 = [total_elastic_cross_section_browning1991a_cm2(Z, E_keV) for E_keV in energies_keV]
+        cross_sections_pm2 = np.array(cross_sections_cm2)*1.0e16
+        plt.loglog(energies_keV, cross_sections_pm2, color=color, label=element)
 
     plt.xlabel("Electron Energy (keV)")
     plt.ylabel(r"Total Elastic Cross Section ($10^{-16}$cm$^{2}$)")
@@ -217,23 +241,25 @@ def plotFigure2Browning1991a():
 
     plt.ylim((0.001, 10.0))
 
-def plotFigure3Browning1991():
+
+def plot_figure3_browning1991():
     energies_keV = np.arange(0.1, 100.0, 0.1)
     elements = ['Au']
-    atomicNumbers = {'Au': 79}
+    atomic_numbers = {'Au': 79}
 
     colors = Colors.BaseColors(len(elements))
     plt.figure()
 
     for element in elements:
-        Z = atomicNumbers[element]
+        Z = atomic_numbers[element]
         color = colors.next()
-        averageAngles_deg = [averageScatteringAngleRutherford_deg(Z, E_keV) for E_keV in energies_keV]
-        plt.plot(energies_keV, averageAngles_deg, color=color, label=element)
+        average_angles_deg = [average_scattering_angle_rutherford_deg(Z, E_keV) for E_keV in energies_keV]
+        plt.plot(energies_keV, average_angles_deg, color=color, label=element)
 
         color = colors.next()
-        averageAngles_deg = [averageScatteringAngleRutherfordDecreasedScreening_deg(Z, E_keV) for E_keV in energies_keV]
-        plt.plot(energies_keV, averageAngles_deg, color=color)
+        average_angles_deg = [average_scattering_angle_rutherford_decreased_screening_deg(Z, E_keV)
+                              for E_keV in energies_keV]
+        plt.plot(energies_keV, average_angles_deg, color=color)
 
     plt.xlabel("Energy (keV)")
     plt.ylabel(r"Average Scattering Angle (Degrees)")
@@ -241,74 +267,79 @@ def plotFigure3Browning1991():
 
     plt.ylim((0.0, 40.0))
 
-def plotFigure4Browning1991():
+
+def plot_figure4_browning1991():
     energy_keV = 1.0
-    angles_deg = np.arange(0.0, 180.0, 1.0)
     angles_rad = np.arange(0.0, np.pi, 0.01)
     angles_deg = np.degrees(angles_rad)
     elements = ['Au']
-    atomicNumbers = {'Au': 79}
+    atomic_numbers = {'Au': 79}
 
     colors = Colors.BaseColors(len(elements))
     plt.figure()
 
     for element in elements:
-        Z = atomicNumbers[element]
+        Z = atomic_numbers[element]
         color = colors.next()
-        differentialCrossSections = [differentialCrossSectionBrowning1991_cm2_sr(Z, energy_keV, angle_rad) for angle_rad in angles_rad]
-        plt.plot(angles_deg, differentialCrossSections, color=color, label=element)
+        differential_cross_sections = [differential_cross_section_browning1991_cm2_sr(Z, energy_keV, angle_rad)
+                                       for angle_rad in angles_rad]
+        plt.plot(angles_deg, differential_cross_sections, color=color, label=element)
 
-    plt.xlabel("Agnle (Degrees)")
+    plt.xlabel("Angle (Degrees)")
     plt.ylabel(r"Cross Section (A$^{2}$)")
     plt.legend(loc='best')
 
-    #plt.ylim((1.0e-4, 1.0e1))
+    # plt.ylim((1.0e-4, 1.0e1))
 
-def plotComparaisonRatioMCXRayError():
+
+def plot_comparison_ratio_mcxray_error():
     energies_keV = np.arange(0.1, 100.0, 0.1)
     elements = ['Au', 'Cu', 'C']
-    atomicNumbers = {'Au': 79, 'Cu': 29, 'C': 6}
+    atomic_numbers = {'Au': 79, 'Cu': 29, 'C': 6}
 
     colors = Colors.BaseColors(len(elements))
     plt.figure()
 
     for element in elements:
-        Z = atomicNumbers[element]
+        Z = atomic_numbers[element]
         color = colors.next()
-        ratios = np.array([ratioBrowning1994(Z, E_keV) for E_keV in energies_keV])
+        ratios = np.array([ratio_browning1994(Z, E_keV) for E_keV in energies_keV])
         ratios = ratios / (1.0 + ratios)
-        label = "%s Browning" % (element)
+        label = "{} Browning".format(element)
         plt.semilogx(energies_keV, ratios, color=color, label=label)
 
         color = colors.next()
-        ratios = np.array([ratioBrowning1994MCXRay(Z, E_keV) for E_keV in energies_keV])
+        ratios = np.array([ratio_browning1994_mcx_ray(Z, E_keV) for E_keV in energies_keV])
         ratios = ratios / (1.0 + ratios)
-        label = "%s MCXRay" % (element)
+        label = "{} MCXRay".format(element)
         plt.semilogx(energies_keV, ratios, color=color, label=label)
 
     plt.xlabel("Energy (keV)")
     plt.ylabel(r"Ratio / (1 + Ratio)")
     plt.legend(loc='best')
 
-    #plt.ylim((0.0, 40.0))
+    # plt.ylim((0.0, 40.0))
 
-def plotComparaisonPolarAngleRandomNumber():
-    numberSamples = 10000000
-    atomicNumber = 79
+
+def plot_comparison_polar_angle_random_number():
+    number_samples = 10000000
+    atomic_number = 79
     energy_keV = 1.0
 
-    ratio = ratioBrowning1994(atomicNumber, energy_keV)
-    print("Ratio = %.4f" % (ratio))
+    ratio = ratio_browning1994(atomic_number, energy_keV)
+    print("Ratio = {:.4f}".format(ratio))
     print("Ratio/(1 + Ratio) = %.4f" % (ratio/(1.0 + ratio)))
 
-    polarAnglesOneRandomNumber_rad = [computePolarAngleOneRandomNumber_rad(atomicNumber, energy_keV) for _i in range(numberSamples)]
+    polar_angles_one_random_number_rad = [compute_polar_angle_one_random_number_rad(atomic_number, energy_keV)
+                                          for _i in range(number_samples)]
 
-    polarAnglesTwoRandomNumbers_rad = [computePolarAngleTwoRandomNumbers_rad(atomicNumber, energy_keV) for _i in range(numberSamples)]
+    polar_angles_two_random_numbers_rad = [compute_polar_angle_two_random_numbers_rad(atomic_number, energy_keV)
+                                           for _i in range(number_samples)]
 
     plt.figure()
 
-    plt.hist(polarAnglesTwoRandomNumbers_rad, bins=100, normed=True, label='2 RNs', histtype='step')
-    plt.hist(polarAnglesOneRandomNumber_rad, bins=100, normed=True, label='1 RN', histtype='step')
+    plt.hist(polar_angles_two_random_numbers_rad, bins=100, normed=True, label='2 RNs', histtype='step')
+    plt.hist(polar_angles_one_random_number_rad, bins=100, normed=True, label='1 RN', histtype='step')
 
     plt.xlabel(r"Scattering Angle (rad)")
     plt.ylabel(r"Probabilities")
@@ -318,116 +349,125 @@ def plotComparaisonPolarAngleRandomNumber():
     filepath = os.path.join(r"J:\hdemers\work\documents\labbooks\e-labbook\graphics\BrowningCrossSection", filename)
     plt.savefig(filepath)
 
-def plotComputeDifferentialCrossSection():
-    numberBins = 50
-    numberSamples = 1000000
-    atomicNumber = 79
+
+def plot_compute_differential_cross_section():
+    number_bins = 50
+    number_samples = 1000000
+    atomic_number = 79
     energy_keV = 1.0
 
-    total_cm2 = totalElasticCrossSectionBrowning1991a_cm2(atomicNumber, energy_keV)
+    total_cm2 = total_elastic_cross_section_browning1991a_cm2(atomic_number, energy_keV)
     total_nm2 = cm2Tonm2(total_cm2)
     total_A2 = total_nm2 * 1.0e2
 
-    ratio = ratioBrowning1994(atomicNumber, energy_keV)
-    print("Ratio = %.4f" % (ratio))
+    ratio = ratio_browning1994(atomic_number, energy_keV)
+    print("Ratio = {:.4f}" .format(ratio))
     print("Ratio/(1 + Ratio) = %.4f" % (ratio/(1.0 + ratio)))
 
-    polarAnglesTwoRandomNumbers_rad = [computePolarAngleTwoRandomNumbers_rad(atomicNumber, energy_keV) for _i in range(numberSamples)]
+    polar_angles_two_random_numbers_rad = [compute_polar_angle_two_random_numbers_rad(atomic_number, energy_keV)
+                                           for _i in range(number_samples)]
 
-    histogram, low_range, binsize, _extrapoints = scipy.stats.histogram(polarAnglesTwoRandomNumbers_rad, numbins=numberBins)
-
-    histogram /= numberSamples*binsize
+    histogram, bin_edges = np.histogram(polar_angles_two_random_numbers_rad, numbins=number_bins)
+    bin_size = bin_edges[1] - bin_edges[0]
+    histogram /= number_samples*bin_size
     histogram *= total_A2
 
-    max_range = low_range + binsize*numberBins
-    thetas_rad = np.arange(low_range, max_range, binsize)
+    max_range = bin_edges + bin_size*number_bins
+    thetas_rad = np.arange(bin_edges, max_range, bin_size)
 
     plt.figure()
 
-    #plt.hist(polarAnglesTwoRandomNumbers_rad, bins=100, normed=True, histtype='step')
+    # plt.hist(polar_angles_two_random_numbers_rad, bins=100, normed=True, histtype='step')
     plt.semilogy(thetas_rad, histogram)
 
     plt.xlabel(r"Scattering Angle (rad)")
     plt.ylabel(r"Probabilities (A2/sr)")
-    plt.xlim(xmin=1.0*binsize)
+    plt.xlim(xmin=1.0*bin_size)
 
-    #plt.legend(loc='best')
+    # plt.legend(loc='best')
     filename = "ComputeDifferentialCrossSection.pdf"
     filepath = os.path.join(r"J:\hdemers\work\documents\labbooks\e-labbook\graphics\BrowningCrossSection", filename)
     plt.savefig(filepath)
 
-def readData(filepath):
+
+def read_data(filepath):
     energies_eV = []
     totals_nm2 = {}
-    meanThetas_rad = {}
+    mean_thetas_rad = {}
 
     reader = csv.reader(open(filepath, 'rb'))
 
-    row = reader.next()
+    reader.next()
+
     for row in reader:
         energy_eV = float(row[0])
         meanTheta_rad = float(row[1])
         total_nm2 = float(row[2])
 
         energies_eV.append(energy_eV)
-        meanThetas_rad[energy_eV] = meanTheta_rad
+        mean_thetas_rad[energy_eV] = meanTheta_rad
         totals_nm2[energy_eV] = total_nm2
 
     del reader
 
-    return meanThetas_rad, totals_nm2
+    return mean_thetas_rad, totals_nm2
 
-def saveData(filepath, energies_eV, meanThetas_rad, totals_nm2):
+
+def save_data(filepath, energies_eV, meanThetas_rad, totals_nm2):
     writer = csv.writer(open(filepath, 'wb'))
 
-    rowHeader = ["Energy (eV)", "Mean Theta (rad)", "Total (nm2)"]
-    writer.writerow(rowHeader)
+    row_header = ["Energy (eV)", "Mean Theta (rad)", "Total (nm2)"]
+    writer.writerow(row_header)
 
     for energy_eV in energies_eV:
         row = [energy_eV, meanThetas_rad[energy_eV], totals_nm2[energy_eV]]
         writer.writerow(row)
 
-def computeMeanThetaTotalBrowning(atomicNumber, energy_eV):
-    numberBins = 50
-    numberSamples = 1000000
+
+def compute_mean_theta_total_browning(atomic_number, energy_eV):
+    number_bins = 50
+    number_samples = 1000000
 
     energy_keV = energy_eV*1.0e-3
-    total_cm2 = totalElasticCrossSectionBrowning1991a_cm2(atomicNumber, energy_keV)
+    total_cm2 = total_elastic_cross_section_browning1991a_cm2(atomic_number, energy_keV)
     total_nm2 = cm2Tonm2(total_cm2)
 
-    polarAnglesTwoRandomNumbers_rad = [computePolarAngleTwoRandomNumbers_rad(atomicNumber, energy_keV) for _i in range(numberSamples)]
+    polar_angles_two_random_numbers_rad = [compute_polar_angle_two_random_numbers_rad(atomic_number, energy_keV)
+                                           for _i in range(number_samples)]
 
-    histogram, low_range, binsize, _extrapoints = scipy.stats.histogram(polarAnglesTwoRandomNumbers_rad, numbins=numberBins)
-
-    histogram /= numberSamples*binsize
+    histogram, bin_edges = np.histogram(polar_angles_two_random_numbers_rad, numbins=number_bins)
+    bin_size = bin_edges[1] - bin_edges[0]
+    histogram /= number_samples*bin_size
     histogram *= total_nm2
 
-    max_range = low_range + binsize*numberBins
-    thetas_rad = np.arange(low_range, max_range, binsize)
+    max_range = bin_edges + bin_size*number_bins
+    thetas_rad = np.arange(bin_edges, max_range, bin_size)
 
-    #partialSinThetas_nm2_sr = [2.0*np.pi*x1*np.sin(x2) for x1,x2 in zip(histogram, thetas_rad)]
-    partialSinThetas_nm2_sr = [x1 for x1, x2 in zip(histogram, thetas_rad)]
-    totalCalculated_nm2 = scipy.integrate.trapz(partialSinThetas_nm2_sr, thetas_rad)
+    # partial_sin_thetas_nm2_sr = [2.0*np.pi*x1*np.sin(x2) for x1,x2 in zip(histogram, thetas_rad)]
+    partial_sin_thetas_nm2_sr = [x1 for x1, x2 in zip(histogram, thetas_rad)]
+    total_calculated_nm2 = scipy.integrate.trapz(partial_sin_thetas_nm2_sr, thetas_rad)
 
-    #partialSinThetas_nm2_sr = [2.0*np.pi*x1*x2*np.sin(x2) for x1,x2 in zip(histogram, thetas_rad)]
-    partialSinThetas_nm2_sr = [x1*x2 for x1,x2 in zip(histogram, thetas_rad)]
-    meanTheta_rad = scipy.integrate.trapz(partialSinThetas_nm2_sr, thetas_rad)
-    meanTheta_rad = meanTheta_rad/totalCalculated_nm2
+    # partial_sin_thetas_nm2_sr = [2.0*np.pi*x1*x2*np.sin(x2) for x1,x2 in zip(histogram, thetas_rad)]
+    partial_sin_thetas_nm2_sr = [x1*x2 for x1, x2 in zip(histogram, thetas_rad)]
+    mean_theta_rad = scipy.integrate.trapz(partial_sin_thetas_nm2_sr, thetas_rad)
+    mean_theta_rad = mean_theta_rad/total_calculated_nm2
 
-    return meanTheta_rad, totalCalculated_nm2
+    return mean_theta_rad, total_calculated_nm2
+
 
 def run():
-    plotFigure2Browning1991a()
+    plot_figure2_browning1991a()
 
-    #plotFigure3Browning1991()
-    #plotFigure4Browning1991()
+    # plot_figure3_browning1991()
+    # plot_figure4_browning1991()
 
-    #plotComparaisonRatioMCXRayError()
+    plot_comparison_ratio_mcxray_error()
 
-    #plotComparaisonPolarAngleRandomNumber()
-    #plotComputeDifferentialCrossSection()
+    # plot_comparison_polar_angle_random_number()
+    # plot_compute_differential_cross_section()
 
     plt.show()
 
-if __name__ == '__main__': #pragma: no cover
+
+if __name__ == '__main__':  # pragma: no cover
     run()
