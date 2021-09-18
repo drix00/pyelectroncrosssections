@@ -2,11 +2,12 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: eecs
+.. py:currentmodule:: tests.test_generate_interpolation_points
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for the :py:mod:`eecs` module.
+Tests for the :py:mod:`eecs.generate_interpolation_points` module.
 """
+
 
 ###############################################################################
 # Copyright 2021 Hendrix Demers

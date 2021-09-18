@@ -2,11 +2,12 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: eecs
+.. py:currentmodule:: tests.models.test_rutherford_reimer_tem
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for the :py:mod:`eecs` module.
+Tests for the :py:mod:`eecs.models.rutherford_reimer_tem` module.
 """
+
 
 ###############################################################################
 # Copyright 2021 Hendrix Demers

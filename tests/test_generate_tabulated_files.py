@@ -2,11 +2,12 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: eecs
+.. py:currentmodule:: tests.test_generate_tabulated_files
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for the :py:mod:`eecs` module.
+Tests for the :py:mod:`eecs.generate_tabulated_files` module.
 """
+
 
 ###############################################################################
 # Copyright 2021 Hendrix Demers

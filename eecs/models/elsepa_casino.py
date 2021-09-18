@@ -19,10 +19,10 @@ __license__ = "GPL 3"
 from zipfile import ZipFile
 
 # Third party modules.
-from scipy.interpolate import interp1d, SmoothBivariateSpline
+from scipy.interpolate import interp1d
 
 # Local modules.
-import pySpecimenTools.ElementProperties as ElementProperties
+import eecs.element_properties as ElementProperties
 
 # Project modules
 

@@ -20,9 +20,9 @@ import os
 # Third party modules.
 
 # Local modules.
-import pyHendrixDemersTools.Files as Files
 import eecs.generate_interpolation_points as GenerateInterpolationPoints
 from eecs.models.rutherford_reimer_tem import totalRelativisticScreenedElasticCrossSectionHenocMaurice_nm2
+from eecs import get_current_module_path
 
 # Globals and constants variables.
 
@@ -121,14 +121,10 @@ def _runElement(atomicNumber):
     return tabulatedFiles.getEnergiesGrid()
 
 def _getOutputPath():
-    configurationFilepath = Files.getCurrentModulePath(__file__, "eecs.cfg")
-    outputPath = Files.getResultsSherbrookePath(configurationFilepath, "calculations/Rutherford")
+    configurationFilepath = get_current_module_path(__file__, "eecs.cfg")
+    outputPath = "calculations/Rutherford"
 
     if not os.path.isdir(outputPath):
         os.makedirs(outputPath)
 
     return outputPath
-
-if __name__ == '__main__':    #pragma: no cover
-    import pyHendrixDemersTools.Runner as Runner
-    Runner.Runner().run(runFunction=runAllElements)

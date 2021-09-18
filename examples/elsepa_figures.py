@@ -18,7 +18,6 @@ import os.path
 
 # Third party modules.
 import matplotlib.pyplot as plt
-import numpy as np
 
 # Local modules.
 import DatabasesTools.Casino3.ElsepaBinaryFile as ElsepaBinaryFile

@@ -33,7 +33,7 @@ import os.path
 
 # Local modules.
 from eecs.models.elsepa_binary_file import ElsepaBinaryFile
-from eecs import current_module_path
+from eecs import get_current_module_path
 
 # Globals and constants variables.
 
@@ -42,7 +42,7 @@ class TestElsepaBinaryFile(unittest.TestCase):
 
     def setUp(self):
         unittest.TestCase.setUp(self)
-        self.filepath = current_module_path(__file__, "../testData/Casino3/EL29.els")
+        self.filepath = get_current_module_path(__file__, "../testData/Casino3/EL29.els")
         if not os.path.isfile(self.filepath):
             self.skipTest("No file: {}".format(self.filepath))
         self.elsFile = ElsepaBinaryFile(self.filepath)

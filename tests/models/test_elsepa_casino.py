@@ -25,7 +25,7 @@ import os.path
 
 # Project modules
 import eecs.models.elsepa_casino
-from eecs import current_module_path
+from eecs import get_current_module_path
 
 # Globals and constants variables.
 
@@ -43,11 +43,11 @@ class TestElsepaCasino(unittest.TestCase):
         unittest.TestCase.setUp(self)
 
         file_name = "../../testdata/ELSEPA_AbsorptionCorrection_LinearInterpolationTabulation_0.1.zip"
-        zip_filepath = current_module_path(__file__, file_name)
+        zip_filepath = get_current_module_path(__file__, file_name)
         if not os.path.isfile(zip_filepath):
             self.skipTest("No file: {}".format(zip_filepath))
 
-        self.cross_section = eecs.Models.elsepa_casino.ElsepaCasino(zip_filepath)
+        self.cross_section = eecs.models.elsepa_casino.ElsepaCasino(zip_filepath)
 
     def tearDown(self):
         """
@@ -70,8 +70,8 @@ class TestElsepaCasino(unittest.TestCase):
         """
 
         file_name = "../../testdata/ELSEPA_AbsorptionCorrection_LinearInterpolationTabulation_0.1.zip"
-        zip_filepath = current_module_path(__file__, file_name)
-        cross_section = eecs.Models.elsepa_casino.ElsepaCasino(zip_filepath)
+        zip_filepath = get_current_module_path(__file__, file_name)
+        cross_section = eecs.models.elsepa_casino.ElsepaCasino(zip_filepath)
         self.assertEqual(zip_filepath, cross_section.zipfilepath)
 
         self.assertTrue(os.path.isfile(cross_section.zipfilepath))

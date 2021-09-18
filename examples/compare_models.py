@@ -35,7 +35,6 @@ import matplotlib.pyplot as plt
 # Project modules.
 from eecs.models.browning import total_elastic_cross_section_browning1991a_cm2, total_elastic_cross_section_rutherford_cm2
 from eecs.models.elsepa_binary_file import ElsepaBinaryFile
-from eecs import current_module_path
 
 # Globals and constants variables.
 

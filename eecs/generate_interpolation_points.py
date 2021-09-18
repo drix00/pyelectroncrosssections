@@ -157,7 +157,7 @@ class GenerateInterpolationPoints(object):
 
     def _computeErrors(self, xArray):
         errors = []
-        for index in xrange(len(xArray[:-1])):
+        for index in range(len(xArray[:-1])):
             xi = xArray[index]
             xi1 = xArray[index+1]
 
@@ -174,7 +174,7 @@ class GenerateInterpolationPoints(object):
             return np.abs(self._function(x) - self._interpolationFunction(x))
 
         if self._numberIntegrationCalls == None:
-            error, integrationError = integrate.quad(func, a, b)
+            error, integrationError, info_dict, message, explain = integrate.quad(func, a, b)
         else:
             error, integrationError = integrate.fixed_quad(func, a, b, n=self._numberIntegrationCalls)
         logging.debug(integrationError)
@@ -186,7 +186,7 @@ class GenerateInterpolationPoints(object):
             return self._function(x)
 
         if self._numberIntegrationCalls == None:
-            error, integrationError = integrate.quad(func, a, b)
+            error, integrationError, info_dict, message, explain = integrate.quad(func, a, b)
         else:
             error, integrationError = integrate.fixed_quad(func, a, b, n=self._numberIntegrationCalls)
         logging.debug(integrationError)
@@ -198,7 +198,7 @@ class GenerateInterpolationPoints(object):
 
     def getErrors(self):
         x = []
-        for index in xrange(len(self._xGrid[:-1])):
+        for index in range(len(self._xGrid[:-1])):
             xx = self._xGrid[index] + (self._xGrid[index+1] - self._xGrid[index])/2.0
             x.append(xx)
 
@@ -222,7 +222,7 @@ class RunnerGrid(object):
         self._numberFunctionCalls += 1
         return self.total_nm2(energy_eV)
 
-    def run(self):
+    def run(self, function):
         self._run()
 
         start = math.log10(self._start)
@@ -297,7 +297,7 @@ def vectorize1(func, args=(), vec_func=False):
                         else:
                                 output = np.empty((n,), dtype=type(y0))
                         output[0] = y0
-                        for i in xrange(1, n):
+                        for i in range(1, n):
                                 output[i] = func(x[i], *args)
                         return output
         return vfunc
@@ -397,7 +397,3 @@ def runSalvatAnalyticFunction():
 def run():
     #logging.getLogger().setLevel(logging.DEBUG)
     RunnerGrid().run()
-
-if __name__ == '__main__':    #pragma: no cover
-    import pyHendrixDemersTools.Runner as Runner
-    Runner.Runner().run(runFunction=run)

@@ -26,6 +26,7 @@ pyElectronCrossSections python package for different elastic scattering cross se
 
 # Standard library modules.
 import os.path
+import csv
 
 # Third party modules.
 
@@ -72,3 +73,20 @@ def create_path(path):
         path += os.sep
 
     return path
+
+
+def csv2txt(filename, verbose=False):
+    txtFilename = os.path.splitext(filename)[0] + '.txt'
+    if verbose:
+        print ('Transform %s to %s.', (filename, txtFilename))
+
+    txtFile = open(txtFilename, 'wt')
+
+    reader = csv.reader(open(filename, 'rt'))
+
+    for row in reader:
+        line = '\t'.join(row)
+        line += '\n'
+        txtFile.write(line)
+
+    txtFile.close()

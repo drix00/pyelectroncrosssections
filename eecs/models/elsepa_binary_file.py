@@ -30,7 +30,6 @@ import logging
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
 import eecs.models.elsepa_cross_section_info as ElsepaCrossSectionInfo
 
 # Project modules.
@@ -38,7 +37,7 @@ import eecs.models.elsepa_cross_section_info as ElsepaCrossSectionInfo
 # Globals and constants variables.
 
 
-class ElsepaBinaryFile(FileReaderWriterTools.FileReaderWriterTools):
+class ElsepaBinaryFile:
     def __init__(self, filepath):
         self._filepath = filepath
         file = open(self._filepath, 'rb')

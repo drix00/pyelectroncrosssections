@@ -24,9 +24,10 @@ import scipy.integrate as integrate
 import matplotlib.pyplot as plt
 
 # Local modules.
-import casinotools.fileformat.casino3.Models.CrossSectionFile as CrossSectionFile
-import pySpecimenTools.ElementProperties as ElementProperties
-import pyHendrixDemersTools.Files as Files
+from casinotools.file_format.casino3.models.cross_section_file import generate_raw_binary_files
+from eecs.element_properties import getSymbol
+
+from eecs import csv2txt
 
 # Globals and constants variables.
 
@@ -48,7 +49,7 @@ class GenerateTabulatedFiles(object):
 
         path = os.path.join(self._outputPath, pathname)
         filepath = os.path.join(path, filename)
-        Files.csv2txt(filepath)
+        csv2txt(filepath)
 
         plt.figure()
         x = energiesGrid_eV
@@ -90,7 +91,7 @@ class GenerateTabulatedFiles(object):
 
         path = os.path.join(self._outputPath, pathname)
         filepath = os.path.join(path, filename)
-        Files.csv2txt(filepath)
+        csv2txt(filepath)
 
     def _generatePartialAnglesFile(self, pathname, polarAnglesGrid_deg,
                                                                  energiesGrid_eV, totals_nm2, partials_nm2_sr):
@@ -131,13 +132,13 @@ class GenerateTabulatedFiles(object):
 
         path = os.path.join(self._outputPath, pathname)
         filepath = os.path.join(path, filename)
-        Files.csv2txt(filepath)
+        csv2txt(filepath)
 
     def _generateBinaryFiles(self, pathName, atomicNumber, energiesGrid_eV,
                                                      totals_nm2, polarAnglesGrid_deg, partial_nm2_sr):
         filepath = self._generateBinaryFilepath(pathName)
         totalsList_nm2 = [totals_nm2[energy_eV] for energy_eV in energiesGrid_eV]
-        CrossSectionFile.generateRawBinaryFiles(filepath, atomicNumber, energiesGrid_eV, totalsList_nm2,
+        generate_raw_binary_files(filepath, atomicNumber, energiesGrid_eV, totalsList_nm2,
                                                 polarAnglesGrid_deg, partial_nm2_sr)
 
     def _generateBinaryFilepath(self, pathName):
@@ -163,10 +164,6 @@ class GenerateTabulatedFiles(object):
         return filename
 
     def _generateFilenameWithSymbol(self, prefix, extension, atomicNumbers):
-        symbol = ElementProperties.getSymbol(atomicNumbers)
+        symbol = getSymbol(atomicNumbers)
         filename = prefix + "_%s" % (symbol) + extension
         return filename
-
-if __name__ == '__main__':    #pragma: no cover
-    import pyHendrixDemersTools.Runner as Runner
-    Runner.Runner().run(runFunction=None)

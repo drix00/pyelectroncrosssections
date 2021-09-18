@@ -25,7 +25,6 @@ A Pytest local plugin for testing the project.
 ###############################################################################
 
 # Standard library modules.
-import os.path
 
 # Third party modules.
 import pytest
@@ -33,7 +32,6 @@ import pytest
 # Local modules.
 
 # Project modules.
-from eecs import get_current_module_path
 
 # Globals and constants variables.
 
@@ -55,19 +53,3 @@ def pytest_collection_modifyitems(config, items):  # pragma no cover
         for item in items:
             if "slow" in item.keywords:
                 item.add_marker(skip_slow)
-
-
-# Test files.
-@pytest.fixture
-def panorama_file():
-    path = get_current_module_path(__file__, r"../test_data\lyra\panorama")
-    file_path = os.path.join(path, r"Da2020-42fresh1\panorama.png")
-    return file_path
-
-
-# Test data.
-@pytest.fixture
-def panorama_scalebar_data(panorama_file):
-    scalebar = ScaleBar(panorama_file)
-
-    return scalebar

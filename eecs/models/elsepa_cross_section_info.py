@@ -28,26 +28,26 @@
 # Third party modules.
 
 # Local modules.
-import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
+from casinotools.file_format.file_reader_writer_tools import read_int, read_double
 
 # Project modules.
 
 # Globals and constants variables.
 
 
-class ElsepaCrossSectionInfo(FileReaderWriterTools.FileReaderWriterTools):
+class ElsepaCrossSectionInfo:
     def read_file(self, file):
-        self._fileVersion = self.readInt(file)
-        self._atomicNumber = int(self.readDouble(file))
-        self._energy_keV = self.readDouble(file)
-        self._totalCS_nm2 = self.readDouble(file)
+        self._fileVersion = read_int(file)
+        self._atomicNumber = int(read_double(file))
+        self._energy_keV = read_double(file)
+        self._totalCS_nm2 = read_double(file)
 
-        self._numberPoints = self.readInt(file)
+        self._numberPoints = read_int(file)
         self._ratios = []
         self._theta_rad = []
         for dummy in range(self._numberPoints):
-            ratio = self.readDouble(file)
-            theta_rad = self.readDouble(file)
+            ratio = read_double(file)
+            theta_rad = read_double(file)
 
             self._ratios.append(ratio)
             self._theta_rad.append(theta_rad)
