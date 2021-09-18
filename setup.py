@@ -43,11 +43,11 @@ from setuptools.command.test import test as TestCommand
 # Project modules.
 from eecs import __author__, __email__, __version__, __project_name__
 
+
 # Globals and constants variables.
 
 
 class TestDataCommand(Command):
-
     description = "create a zip of all files in the testData folder"
     user_options = [('dist-dir=', 'd',
                      "directory to put final built distributions in "
@@ -95,16 +95,17 @@ setup(name="eecs",
 
       packages=find_packages(),
 
-      include_package_data=False, # Do not include test data
+      include_package_data=False,  # Do not include test data
 
       install_requires=['numpy',
                         'scipy',
                         'matplotlib',
                         ],
-      setup_requires=['nose', 'coverage'],
-
-      test_suite='nose.collector',
+      tests_require=['pytest', 'coverage', 'pytest-cov'],
+      extras_require={
+          'testing': ['pytest', 'coverage', 'pytest-cov'],
+          'develop': ['setuptools', 'Sphinx', 'sphinx-rtd-theme', 'coverage', 'pytest', 'pytest-cov']},
+      setup_requires=['pytest', 'coverage', 'pytest-cov'],
 
       cmdclass={'zip_testdata': TestDataCommand},
-)
-
+      )

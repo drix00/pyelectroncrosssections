@@ -64,7 +64,3 @@ def totalWilliamsCarter(atomicNumber, energy_eV, theta_rad):
     sigma = 1.62e-24 * np.power(Z/E0, 2.0) /np.power(np.tan(theta_rad/2.0), 2.0)
 
     return sigma
-
-if __name__ == '__main__': #pragma: no cover
-    import pyHendrixDemersTools.Runner as Runner
-    Runner.Runner().run(runFunction=None)

@@ -20,13 +20,13 @@ import os
 # Third party modules.
 
 # Local modules.
-import eecs.generate_interpolation_points as GenerateInterpolationPoints
+from eecs.generate_interpolation_points import RunnerGrid
 from eecs.models.rutherford_reimer_tem import totalRelativisticScreenedElasticCrossSectionHenocMaurice_nm2
 from eecs import get_current_module_path
 
 # Globals and constants variables.
 
-class RutherfordRunnerGrid(GenerateInterpolationPoints.RunnerGrid):
+class RutherfordRunnerGrid(RunnerGrid):
     def __init__(self, errorPercentage, initialGrid, atomicnumber):
         super(RutherfordRunnerGrid, self).__init__(initialGrid)
 

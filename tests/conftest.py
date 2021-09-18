@@ -25,6 +25,7 @@ A Pytest local plugin for testing the project.
 ###############################################################################
 
 # Standard library modules.
+import os.path
 
 # Third party modules.
 import pytest
@@ -32,6 +33,8 @@ import pytest
 # Local modules.
 
 # Project modules.
+from eecs.models.elsepa_binary_file import ElsepaBinaryFile
+from eecs import get_current_module_path
 
 # Globals and constants variables.
 
@@ -53,3 +56,17 @@ def pytest_collection_modifyitems(config, items):  # pragma no cover
         for item in items:
             if "slow" in item.keywords:
                 item.add_marker(skip_slow)
+
+
+@pytest.fixture
+def el29_file_path():
+    file_path = get_current_module_path(__file__, "../test_data/Casino3/EL29.els")
+    if not os.path.isfile(file_path):
+        pytest.skip("No file: {}".format(file_path))
+    return file_path
+
+
+@pytest.fixture
+def el29_file(el29_file_path):
+    els_file = ElsepaBinaryFile(el29_file_path)
+    return els_file

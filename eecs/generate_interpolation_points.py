@@ -222,7 +222,7 @@ class RunnerGrid(object):
         self._numberFunctionCalls += 1
         return self.total_nm2(energy_eV)
 
-    def run(self, function):
+    def run(self):
         self._run()
 
         start = math.log10(self._start)

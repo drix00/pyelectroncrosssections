@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: pyElectronCrossSection.models.test_ElsepaBinaryFile
-
+.. py:currentmodule:: tests.models.test_elsepa_binary_file
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-
+Tests for the :py:mod:`eecs.models.elsepa_binary_file` module.
 """
 
+
 ###############################################################################
-# Copyright 2019 Hendrix Demers
+# Copyright 2021 Hendrix Demers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,74 +26,63 @@
 ###############################################################################
 
 # Standard library modules.
-import unittest
-import os.path
 
 # Third party modules.
+from pytest import approx
 
 # Local modules.
-from eecs.models.elsepa_binary_file import ElsepaBinaryFile
-from eecs import get_current_module_path
+
+# Project modules.
 
 # Globals and constants variables.
 
 
-class TestElsepaBinaryFile(unittest.TestCase):
+def test_is_discovered():
+    """
+    Test used to validate the file is included in the tests
+    by the test framework.
+    """
+    # assert False
+    assert True
 
-    def setUp(self):
-        unittest.TestCase.setUp(self)
-        self.filepath = get_current_module_path(__file__, "../testData/Casino3/EL29.els")
-        if not os.path.isfile(self.filepath):
-            self.skipTest("No file: {}".format(self.filepath))
-        self.elsFile = ElsepaBinaryFile(self.filepath)
 
-    def tearDown(self):
-        unittest.TestCase.tearDown(self)
+def test_init(el29_file_path, el29_file):
+    assert el29_file_path == el29_file._filepath
 
-    def testSkeleton(self):
-        # self.fail("Test if the testcase is working.")
-        self.assert_(True)
 
-    def test_init(self):
-        self.assertEquals(self.filepath, self.elsFile._filepath)
+def test_read_file(el29_file_path, el29_file):
+    file = open(el29_file_path, 'rb')
+    el29_file.read_file(file)
 
-        # self.fail("Test if the testcase is working.")
+    assert 48 == len(el29_file._elsCSInfoList)
 
-    def test_readFile(self):
-        file = open(self.filepath, 'rb')
-        self.elsFile.read_file(file)
+    els_cs_info = el29_file._elsCSInfoList[0]
+    assert 30105020 == els_cs_info._fileVersion
+    assert 29 == els_cs_info._atomicNumber
+    assert 1.000000e-01 == approx(els_cs_info._energy_keV)
+    assert 2.870967e-02 == approx(els_cs_info._totalCS_nm2)
 
-        self.assertEquals(48, len(self.elsFile._elsCSInfoList))
+    assert 606 == els_cs_info._numberPoints
 
-        els_cs_info = self.elsFile._elsCSInfoList[0]
-        self.assertEquals(30105020, els_cs_info._fileVersion)
-        self.assertEquals(29, els_cs_info._atomicNumber)
-        self.assertAlmostEquals(1.000000e-01, els_cs_info._energy_keV)
-        self.assertAlmostEquals(2.870967e-02, els_cs_info._totalCS_nm2)
+    assert 0.0 == approx(els_cs_info._ratios[0])
+    assert 0.0 == approx(els_cs_info._theta_rad[0])
 
-        self.assertEquals(606, els_cs_info._numberPoints)
+    assert 1.0 == approx(els_cs_info._ratios[-1])
+    assert 3.1415926539 == approx(els_cs_info._theta_rad[-1])
 
-        self.assertAlmostEquals(0.0, els_cs_info._ratios[0])
-        self.assertAlmostEquals(0.0, els_cs_info._theta_rad[0])
+    els_cs_info = el29_file._elsCSInfoList[-1]
+    assert 30105020 == els_cs_info._fileVersion
+    assert 29 == els_cs_info._atomicNumber
+    assert 500.0 == approx(els_cs_info._energy_keV)
+    assert 0.000247381469262322 == approx(els_cs_info._totalCS_nm2)
 
-        self.assertAlmostEquals(1.0, els_cs_info._ratios[-1])
-        self.assertAlmostEquals(3.1415926539, els_cs_info._theta_rad[-1])
+    assert 606 == els_cs_info._numberPoints
 
-        els_cs_info = self.elsFile._elsCSInfoList[-1]
-        self.assertEquals(30105020, els_cs_info._fileVersion)
-        self.assertEquals(29, els_cs_info._atomicNumber)
-        self.assertAlmostEquals(500.0, els_cs_info._energy_keV)
-        self.assertAlmostEquals(0.000247381469262322, els_cs_info._totalCS_nm2)
+    assert 0.0 == approx(els_cs_info._ratios[0])
+    assert 0.0 == approx(els_cs_info._theta_rad[0])
 
-        self.assertEquals(606, els_cs_info._numberPoints)
+    assert 1.0 == approx(els_cs_info._ratios[-1])
+    assert 3.1415926539 == approx(els_cs_info._theta_rad[-1])
 
-        self.assertAlmostEquals(0.0, els_cs_info._ratios[0])
-        self.assertAlmostEquals(0.0, els_cs_info._theta_rad[0])
-
-        self.assertAlmostEquals(1.0, els_cs_info._ratios[-1])
-        self.assertAlmostEquals(3.1415926539, els_cs_info._theta_rad[-1])
-
-        self.assertAlmostEquals(0.999999999788251, els_cs_info._ratios[-1])
-        self.assertAlmostEquals(3.13286600763917, els_cs_info._theta_rad[-2])
-
-        # self.fail("Test if the testcase is working.")
+    assert 0.999999999788251 == approx(els_cs_info._ratios[-1])
+    assert 3.13286600763917 == approx(els_cs_info._theta_rad[-2])

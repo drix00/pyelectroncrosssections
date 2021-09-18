@@ -1,106 +1,97 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2007 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: tests.test_element_properties
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-# Subversion informations for the file.
-__svnRevision__ = "$Revision: 2378 $"
-__svnDate__ = "$Date: 2011-06-20 15:45:48 -0400 (Mon, 20 Jun 2011) $"
-__svnId__ = "$Id: test_ElementProperties.py 2378 2011-06-20 19:45:48Z hdemers $"
+Tests for the :py:mod:`eecs.element_properties` module.
+"""
+
+
+###############################################################################
+# Copyright 2021 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
-import unittest
 
 # Third party modules.
+from pytest import approx
 
 # Local modules.
-import eecs.element_properties as ElementProperties
+
+# Project modules.
+from eecs.element_properties import *
 
 # Globals and constants variables.
 
-class TestElementProperties(unittest.TestCase):
 
-    def setUp(self):
-        unittest.TestCase.setUp(self)
+def test_is_discovered():
+    """
+    Test used to validate the file is included in the tests
+    by the test framework.
+    """
+    # assert False
+    assert True
 
-    def tearDown(self):
-        unittest.TestCase.tearDown(self)
 
-    def testSkeleton(self):
-        #self.fail("Test if the TestCase is working.")
-        self.assertTrue(True)
+def test_get_mass_density_g_cm3():
+    assert 7.1900 == getMassDensity_g_cm3(24)
 
-    def testGetMassDensity_g_cm3(self):
-        self.assertEquals(7.1900, ElementProperties.getMassDensity_g_cm3(24))
 
-        #self.fail("Test if the TestCase is working.")
-        self.assertTrue(True)
+def test_get_atomic_mass_g_mol():
+    assert 51.996000 == getAtomicMass_g_mol(24)
 
-    def testGetAtomicMass_g_mol(self):
-        self.assertEquals(51.996000, ElementProperties.getAtomicMass_g_mol(24))
 
-        #self.fail("Test if the TestCase is working.")
-        self.assertTrue(True)
+def test_get_fermi_energy_eV():
+    assert 1.000 == getFermiEnergy_eV(24)
 
-    def testGetFermiEnergy_eV(self):
-        self.assertEquals(1.000, ElementProperties.getFermiEnergy_eV(24))
+    assert 4.700 == getFermiEnergy_eV(3)
 
-        self.assertEquals(4.700, ElementProperties.getFermiEnergy_eV(3))
 
-        #self.fail("Test if the TestCase is working.")
-        self.assertTrue(True)
+def test_get_k_fermi_eV():
+    assert 7.00E7 == getKFermi_eV(24)
 
-    def testGetKFermi_eV(self):
-        self.assertEquals(7.00E7, ElementProperties.getKFermi_eV(24))
+    assert 1.10E8 == getKFermi_eV(3)
 
-        self.assertEquals(1.10E8, ElementProperties.getKFermi_eV(3))
 
-        #self.fail("Test if the TestCase is working.")
-        self.assertTrue(True)
+def test_get_plasmon_energy_eV():
+    assert 24.9 == getPlasmonEnergy_eV(24)
 
-    def testGetPlasmonEnergy_eV(self):
-        self.assertEquals(24.9, ElementProperties.getPlasmonEnergy_eV(24))
 
-        #self.fail("Test if the TestCase is working.")
-        self.assertTrue(True)
+def test_compute_atomic_density_atom_cm3():
+    mass_density_g_cm3 = getMassDensity_g_cm3(13)
+    atomic_mass_g_mol = getAtomicMass_g_mol(13)
 
-    def testComputeAtomicDensity_atom_cm3(self):
-        massDensity_g_cm3 = ElementProperties.getMassDensity_g_cm3(13)
-        atomicMass_g_mol = ElementProperties.getAtomicMass_g_mol(13)
+    value = computeAtomicDensity_atom_cm3(mass_density_g_cm3, atomic_mass_g_mol)
+    value *= 1.0E-22
 
-        value = ElementProperties.computeAtomicDensity_atom_cm3(massDensity_g_cm3, atomicMass_g_mol)
-        value *= 1.0E-22
+    assert 6.02617011482666 == approx(value, 4)
 
-        self.assertAlmostEquals(6.02617011482666, value, 4)
 
-        #self.fail("Test if the TestCase is working.")
-        self.assertTrue(True)
+def test_get_k_ratio_correction():
+    assert 0.80707 == approx(getKRatioCorrection(13), 4)
 
-    def testGetKRatioCorrection(self):
-        self.assertAlmostEquals(0.80707, ElementProperties.getKRatioCorrection(13), 4)
 
-        #self.fail("Test if the TestCase is working.")
-        self.assertTrue(True)
+def test_get_mean_ionization_energy_eV():
+    assert 149.5 == getMeanIonizationEnergy_eV(13)
 
-    def testGetMeanIonizationEnergy_eV(self):
-        self.assertEquals(149.5, ElementProperties.getMeanIonizationEnergy_eV(13))
 
-        #self.fail("Test if the TestCase is working.")
-        self.assertTrue(True)
+def test_get_symbol():
+    assert 'Al' == getSymbol(13)
 
-    def testGetSymbol(self):
-        self.assertEquals('Al', ElementProperties.getSymbol(13))
 
-        #self.fail("Test if the TestCase is working.")
-        self.assertTrue(True)
-
-    def testGetName(self):
-        self.assertEquals('Aluminium', ElementProperties.getName(13))
-
-        #self.fail("Test if the TestCase is working.")
-        self.assertTrue(True)
+def test_get_name():
+    assert 'Aluminium' == getName(13)
