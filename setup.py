@@ -1,23 +1,50 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers"
-__email__ = "hendrix.demers@mail.mcgill.ca"
-__version__ = "0.1"
-__copyright__ = "Copyright (c) 2015 Hendrix Demeners"
-__license__ = ""
+"""
+.. py:currentmodule:: setup
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Setup script for the project pyELSEPA.
+"""
+
+###############################################################################
+# Copyright 2021 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
+import os.path
+import io
+import sys
 import os
 import zipfile
 from distutils.cmd import Command
 
 # Third party modules.
-from setuptools import setup, find_packages
+from setuptools import setup, find_namespace_packages
+from setuptools import find_packages
+# noinspection PyPep8Naming
+from setuptools.command.test import test as TestCommand
 
 # Local modules.
 
+# Project modules.
+from elsepa import __author__, __email__, __version__, __project_name__
+
 # Globals and constants variables.
+
 
 class TestDataCommand(Command):
 
@@ -48,6 +75,7 @@ class TestDataCommand(Command):
                     filename = os.path.join(root, file)
                     arcname = os.path.relpath(filename, basepath)
                     z.write(filename, arcname)
+
 
 setup(name="pyElectronCrossSections",
       version='0.1',
