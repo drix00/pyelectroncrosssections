@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: pyElectronCrossSection.Models.test_ElsepaBinaryFile
+.. py:currentmodule:: pyElectronCrossSection.models.test_ElsepaBinaryFile
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
@@ -32,8 +32,8 @@ import os.path
 # Third party modules.
 
 # Local modules.
-from pyElectronCrossSections.Models.ElsepaBinaryFile import ElsepaBinaryFile
-from pyElectronCrossSections import current_module_path
+from eecs.models.elsepa_binary_file import ElsepaBinaryFile
+from eecs import current_module_path
 
 # Globals and constants variables.
 

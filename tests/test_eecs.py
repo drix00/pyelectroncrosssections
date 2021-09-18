@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: module_name
+.. py:currentmodule:: eecs
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-Tests for the :py:mod:`module_name` module.
+Tests for the :py:mod:`eecs` module.
 """
 
 ###############################################################################

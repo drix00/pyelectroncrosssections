@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: pyElectronCrossSection.Models.ElsepaCrossSectionInfo
+.. py:currentmodule:: pyElectronCrossSection.models.ElsepaCrossSectionInfo
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
@@ -24,33 +24,33 @@
 # limitations under the License.
 
 # Standard library modules.
-import struct
-import logging
 
 # Third party modules.
 
 # Local modules.
 import casinotools.fileformat.FileReaderWriterTools as FileReaderWriterTools
-import pyElectronCrossSections.Models.ElsepaCrossSectionInfo as ElsepaCrossSectionInfo
 
 # Project modules.
 
 # Globals and constants variables.
 
 
-class ElsepaBinaryFile(FileReaderWriterTools.FileReaderWriterTools):
-    def __init__(self, filepath):
-        self._filepath = filepath
-        file = open(self._filepath, 'rb')
-        self.read_file(file)
-
+class ElsepaCrossSectionInfo(FileReaderWriterTools.FileReaderWriterTools):
     def read_file(self, file):
-        self._elsCSInfoList = []
-        while file:
-            try:
-                elsepa_cs_info = ElsepaCrossSectionInfo.ElsepaCrossSectionInfo()
-                elsepa_cs_info.read_file(file)
-                self._elsCSInfoList.append(elsepa_cs_info)
-            except struct.error as message:
-                logging.error(message)
-                return
+        self._fileVersion = self.readInt(file)
+        self._atomicNumber = int(self.readDouble(file))
+        self._energy_keV = self.readDouble(file)
+        self._totalCS_nm2 = self.readDouble(file)
+
+        self._numberPoints = self.readInt(file)
+        self._ratios = []
+        self._theta_rad = []
+        for dummy in range(self._numberPoints):
+            ratio = self.readDouble(file)
+            theta_rad = self.readDouble(file)
+
+            self._ratios.append(ratio)
+            self._theta_rad.append(theta_rad)
+
+        assert len(self._ratios) == self._numberPoints
+        assert len(self._theta_rad) == self._numberPoints

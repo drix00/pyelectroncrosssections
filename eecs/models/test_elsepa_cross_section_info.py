@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: pyElectronCrossSection.Models.test_ElsepaCrossSectionInfo
+.. py:currentmodule:: pyElectronCrossSection.models.test_ElsepaCrossSectionInfo
 
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
@@ -32,8 +32,8 @@ import os.path
 # Third party modules.
 
 # Local modules.
-from pyElectronCrossSections.Models.ElsepaCrossSectionInfo import ElsepaCrossSectionInfo
-from pyElectronCrossSections import current_module_path
+from eecs.models.elsepa_cross_section_info import ElsepaCrossSectionInfo
+from eecs import current_module_path
 
 # Globals and constants variables.
 

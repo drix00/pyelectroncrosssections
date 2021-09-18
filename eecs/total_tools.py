@@ -10,7 +10,7 @@ __license__ = ""
 # Subversion informations for the file.
 __svnRevision__ = "$Revision: 2636 $"
 __svnDate__ = "$Date: 2011-12-15 16:58:59 -0500 (Thu, 15 Dec 2011) $"
-__svnId__ = "$Id: totalTools.py 2636 2011-12-15 21:58:59Z hdemers $"
+__svnId__ = "$Id: total_tools.py 2636 2011-12-15 21:58:59Z hdemers $"
 
 import sys
 import os

@@ -11,7 +11,7 @@ __license__ = ""
 # Subversion informations for the file.
 __svnRevision__ = "$Revision: 2292 $"
 __svnDate__ = "$Date: 2011-03-21 11:29:50 -0400 (Mon, 21 Mar 2011) $"
-__svnId__ = "$Id: GenerateRutherfordTabulatedFiles.py 2292 2011-03-21 15:29:50Z hdemers $"
+__svnId__ = "$Id: generate_rutherford_tabulated_files.py 2292 2011-03-21 15:29:50Z hdemers $"
 
 # Standard library modules.
 import logging
@@ -21,8 +21,8 @@ import os
 
 # Local modules.
 import pyHendrixDemersTools.Files as Files
-import pyElectronCrossSections.GenerateInterpolationPoints as GenerateInterpolationPoints
-from pyElectronCrossSections.Models.RutherfordReimerTem import totalRelativisticScreenedElasticCrossSectionHenocMaurice_nm2
+import eecs.generate_interpolation_points as GenerateInterpolationPoints
+from eecs.models.rutherford_reimer_tem import totalRelativisticScreenedElasticCrossSectionHenocMaurice_nm2
 
 # Globals and constants variables.
 
@@ -121,7 +121,7 @@ def _runElement(atomicNumber):
     return tabulatedFiles.getEnergiesGrid()
 
 def _getOutputPath():
-    configurationFilepath = Files.getCurrentModulePath(__file__, "pyElectronCrossSections.cfg")
+    configurationFilepath = Files.getCurrentModulePath(__file__, "eecs.cfg")
     outputPath = Files.getResultsSherbrookePath(configurationFilepath, "calculations/Rutherford")
 
     if not os.path.isdir(outputPath):

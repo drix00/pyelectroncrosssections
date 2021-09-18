@@ -11,7 +11,7 @@ __license__ = ""
 # Subversion informations for the file.
 __svnRevision__ = "$Revision: 2292 $"
 __svnDate__ = "$Date: 2011-03-21 11:29:50 -0400 (Mon, 21 Mar 2011) $"
-__svnId__ = "$Id: test_GenerateRutherfordTabulatedFiles.py 2292 2011-03-21 15:29:50Z hdemers $"
+__svnId__ = "$Id: test_generate_rutherford_tabulated_files.py 2292 2011-03-21 15:29:50Z hdemers $"
 
 # Standard library modules.
 import unittest
@@ -20,7 +20,7 @@ import logging
 # Third party modules.
 
 # Local modules.
-import pyElectronCrossSections.GenerateRutherfordTabulatedFiles as GenerateRutherfordTabulatedFiles
+import eecs.generate_rutherford_tabulated_files as GenerateRutherfordTabulatedFiles
 
 # Globals and constants variables.
 

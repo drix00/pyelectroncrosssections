@@ -41,7 +41,7 @@ from setuptools.command.test import test as TestCommand
 # Local modules.
 
 # Project modules.
-from elsepa import __author__, __email__, __version__, __project_name__
+from eecs import __author__, __email__, __version__, __project_name__
 
 # Globals and constants variables.
 
@@ -77,7 +77,7 @@ class TestDataCommand(Command):
                     z.write(filename, arcname)
 
 
-setup(name="pyElectronCrossSections",
+setup(name="eecs",
       version='0.1',
       url='',
       description="",

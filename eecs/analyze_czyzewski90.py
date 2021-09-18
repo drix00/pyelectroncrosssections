@@ -11,7 +11,7 @@ __license__ = ""
 # Subversion informations for the file.
 __svnRevision__ = "$Revision: 2292 $"
 __svnDate__ = "$Date: 2011-03-21 11:29:50 -0400 (Mon, 21 Mar 2011) $"
-__svnId__ = "$Id: AnalyzeCzyzewski90.py 2292 2011-03-21 15:29:50Z hdemers $"
+__svnId__ = "$Id: analyze_czyzewski90.py 2292 2011-03-21 15:29:50Z hdemers $"
 
 # Standard library modules.
 import logging
@@ -25,7 +25,7 @@ from scipy import interpolate
 
 # Local modules.
 import DatabasesTools.Czyzewski90.MottTabulatedFactory as MottTabulatedFactory
-import pyElectronCrossSections.Models.RutherfordReimerTem as RutherfordReimerTem
+import eecs.models.rutherford_reimer_tem as RutherfordReimerTem
 
 # Globals and constants variables.
 
@@ -299,7 +299,7 @@ def _interpolationComparisonRutherford(atomicNumbers, energies_eV):
 def run():
     logging.getLogger().setLevel(logging.DEBUG)
 
-    configurationFilepath = "pyElectronCrossSections.cfg"
+    configurationFilepath = "eecs.cfg"
     mottTabulated = MottTabulatedFactory.getMottTabulated(configurationFilepath=configurationFilepath)
 
     atomicNumbers = mottTabulated.getAtomicNumbers()
