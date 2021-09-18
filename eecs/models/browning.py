@@ -35,9 +35,9 @@ import scipy.stats
 import scipy.integrate
 
 # Local modules.
-from eecs.numeric_conversion import cm2_to_nm2
 
 # Project modules
+from eecs.numeric_conversion import cm2_to_nm2
 
 # Globals and constants variables.
 
@@ -236,14 +236,14 @@ def read_data(filepath):
     return mean_thetas_rad, totals_nm2
 
 
-def save_data(filepath, energies_eV, meanThetas_rad, totals_nm2):
+def save_data(filepath, energies_eV, mean_thetas_rad, totals_nm2):
     writer = csv.writer(open(filepath, 'wb'))
 
     row_header = ["Energy (eV)", "Mean Theta (rad)", "Total (nm2)"]
     writer.writerow(row_header)
 
     for energy_eV in energies_eV:
-        row = [energy_eV, meanThetas_rad[energy_eV], totals_nm2[energy_eV]]
+        row = [energy_eV, mean_thetas_rad[energy_eV], totals_nm2[energy_eV]]
         writer.writerow(row)
 
 

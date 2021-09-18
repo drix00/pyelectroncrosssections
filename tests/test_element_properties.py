@@ -48,50 +48,50 @@ def test_is_discovered():
 
 
 def test_get_mass_density_g_cm3():
-    assert 7.1900 == getMassDensity_g_cm3(24)
+    assert 7.1900 == get_mass_density_g_cm3(24)
 
 
 def test_get_atomic_mass_g_mol():
-    assert 51.996000 == getAtomicMass_g_mol(24)
+    assert 51.996000 == get_atomic_mass_g_mol(24)
 
 
 def test_get_fermi_energy_eV():
-    assert 1.000 == getFermiEnergy_eV(24)
+    assert 1.000 == get_fermi_energy_eV(24)
 
-    assert 4.700 == getFermiEnergy_eV(3)
+    assert 4.700 == get_fermi_energy_eV(3)
 
 
 def test_get_k_fermi_eV():
-    assert 7.00E7 == getKFermi_eV(24)
+    assert 7.00E7 == get_k_fermi_eV(24)
 
-    assert 1.10E8 == getKFermi_eV(3)
+    assert 1.10E8 == get_k_fermi_eV(3)
 
 
 def test_get_plasmon_energy_eV():
-    assert 24.9 == getPlasmonEnergy_eV(24)
+    assert 24.9 == get_plasmon_energy_eV(24)
 
 
 def test_compute_atomic_density_atom_cm3():
-    mass_density_g_cm3 = getMassDensity_g_cm3(13)
-    atomic_mass_g_mol = getAtomicMass_g_mol(13)
+    mass_density_g_cm3 = get_mass_density_g_cm3(13)
+    atomic_mass_g_mol = get_atomic_mass_g_mol(13)
 
-    value = computeAtomicDensity_atom_cm3(mass_density_g_cm3, atomic_mass_g_mol)
+    value = compute_atomic_density_atom_cm3(mass_density_g_cm3, atomic_mass_g_mol)
     value *= 1.0E-22
 
     assert 6.02617011482666 == approx(value, 4)
 
 
 def test_get_k_ratio_correction():
-    assert 0.80707 == approx(getKRatioCorrection(13), 4)
+    assert 0.80707 == approx(get_k_ratio_correction(13), 4)
 
 
 def test_get_mean_ionization_energy_eV():
-    assert 149.5 == getMeanIonizationEnergy_eV(13)
+    assert 149.5 == get_mean_ionization_energy_eV(13)
 
 
 def test_get_symbol():
-    assert 'Al' == getSymbol(13)
+    assert 'Al' == get_symbol(13)
 
 
 def test_get_name():
-    assert 'Aluminium' == getName(13)
+    assert 'Aluminium' == get_name(13)

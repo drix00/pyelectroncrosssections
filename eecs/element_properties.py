@@ -1,12 +1,28 @@
 #!/usr/bin/env python
-""" """
+# -*- coding: utf-8 -*-
 
-# Script information for the file.
-__author__ = "Hendrix Demers (hendrix.demers@mail.mcgill.ca)"
-__version__ = ""
-__date__ = ""
-__copyright__ = "Copyright (c) 2007 Hendrix Demers"
-__license__ = ""
+"""
+.. py:currentmodule:: eecs.element_properties
+.. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
+
+Element properties.
+"""
+
+###############################################################################
+# Copyright 2021 Hendrix Demers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import math
@@ -17,137 +33,37 @@ import csv
 
 # Local modules.
 
+# Project modules.
+
 # Globals and constants variables.
 g_AvogadroNumber_atom_mol = 6.02205E23
 
 g_elementSymbol = [
-        "H"    , "He" , "Li" , "Be" , "B"    , "C"    , "N"    , "O"
-    , "F"    , "Ne" , "Na" , "Mg" , "Al" , "Si" , "P"    , "S"
-    , "Cl" , "Ar" , "K"    , "Ca" , "Sc" , "Ti" , "V"    , "Cr"
-    , "Mn" , "Fe" , "Co" , "Ni" , "Cu" , "Zn" , "Ga" , "Ge"
-    , "As" , "Se" , "Br" , "Kr" , "Rb" , "Sr" , "Y"    , "Zr"
-    , "Nb" , "Mo" , "Tc" , "Ru" , "Rh" , "Pd" , "Ag" , "Cd"
-    , "In" , "Sn" , "Sb" , "Te" , "I"    , "Xe" , "Cs" , "Ba"
-    , "La" , "Ce" , "Pr" , "Nd" , "Pm" , "Sm" , "Eu" , "Gd"
-    , "Tb" , "Dy" , "Ho" , "Er" , "Tm" , "Yb" , "Lu" , "Hf"
-    , "Ta" , "W"    , "Re" , "Os" , "Ir" , "Pt" , "Au" , "Hg"
-    , "Tl" , "Pb" , "Bi" , "Po" , "At" , "Rn" , "Fr" , "Ra"
-    , "Ac" , "Th" , "Pa" , "U"    , "Np" , "Pu" , "Am" , "Cm"
-    , "Bk" , "Cf" , "Es" , "Fm" , "Md" , "No" , "Lr" , "Unq"
-    , "Unp" , "Unh"]
+    "H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar", "K", "Ca", "Sc",
+    "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Ge", "As", "Se", "Br", "Kr", "Rb", "Sr", "Y", "Zr",
+    "Nb", "Mo", "Tc", "Ru", "Rh", "Pd", "Ag", "Cd", "In", "Sn", "Sb", "Te", "I", "Xe", "Cs", "Ba", "La", "Ce", "Pr",
+    "Nd", "Pm", "Sm", "Eu", "Gd", "Tb", "Dy", "Ho", "Er", "Tm", "Yb", "Lu", "Hf", "Ta", "W", "Re", "Os", "Ir", "Pt",
+    "Au", "Hg", "Tl", "Pb", "Bi", "Po", "At", "Rn", "Fr", "Ra", "Ac", "Th", "Pa", "U", "Np", "Pu", "Am", "Cm", "Bk",
+    "Cf", "Es", "Fm", "Md", "No", "Lr", "Unq", "Unp", "Unh"]
 
 g_elementName = [
-        "Hydrogen"
-    , "Helium"
-    , "Lithium"
-    , "Beryllium"
-    , "Boron"
-    , "Carbon"
-    , "Nitrogen"
-    , "Oxygen"
-    , "Fluorine"
-    , "Neon"
-    , "Sodium"
-    , "Magnesium"
-    , "Aluminium"
-    , "Silicon"
-    , "Phosphorus"
-    , "Sulfur"
-    , "Chlorine"
-    , "Argon"
-    , "Potassium"
-    , "Calcium"
-    , "Scandium"
-    , "Titanium"
-    ,    "Vanadium"
-    , "Chromium"
-    , "Manganese"
-    , "Iron"
-    , "Cobalt"
-    , "Nickel"
-    , "Copper"
-    , "Zinc"
-    , "Gallium"
-    , "Germanium"
-    , "Arsenic"
-    , "Selenium"
-    , "Bromine"
-    , "Krypton"
-    , "Rubidium"
-    , "Strontium"
-    , "Yttrium"
-    , "Zirconium"
-    , "Niobium"
-    , "Molybdenum"
-    , "Technetium"
-    , "Ruthenium"
-    , "Rhodium"
-    , "Palladium"
-    , "Silver"
-    , "Cadmium"
-    , "Indium"
-    , "Tin"
-    , "Antimony"
-    , "Tellurium"
-    , "Iodine"
-    , "Xenon"
-    , "Cesium"
-    , "Barium"
-    , "Lanthanum"
-    , "Cerium"
-    , "Praseodymium"
-    , "Neodymium"
-    , "Promethium"
-    , "Samarium"
-    , "Europium"
-    , "Gadolinium"
-    , "Terbium"
-    , "Dysprosium"
-    , "Holmium"
-    , "Erbium"
-    , "Thulium"
-    , "Ytterbium"
-    ,    "Lutetium"
-    , "Hafnium"
-    , "Tantalum"
-    , "Tungsten"
-    , "Rhenium"
-    , "Osmium"
-    , "Iridium"
-    , "Platinum"
-    , "Gold"
-    , "Mercury"
-    , "Thallium"
-    , "Lead"
-    , "Bismuth"
-    , "Polonium"
-    , "Astatine"
-    , "Radon"
-    , "Francium"
-    , "Radium"
-    , "Actinium"
-    , "Thorium"
-    , "Protactinium"
-    , "Uranium"
-    , "Neptunium"
-    , "Plutonium"
-    , "Americium"
-    , "Curium"
-    , "Berkelium"
-    , "Californium"
-    , "Einsteinium"
-    , "Fermium"
-    , "Mendelevium"
-    , "Nobelium"
-    , "Lawrencium"
-    , "Unnilquadium"
-    , "Unnilpentium"
-    , "Unnilhexium"]
+    "Hydrogen", "Helium", "Lithium", "Beryllium", "Boron", "Carbon", "Nitrogen", "Oxygen", "Fluorine", "Neon", "Sodium",
+    "Magnesium", "Aluminium", "Silicon", "Phosphorus", "Sulfur", "Chlorine", "Argon", "Potassium", "Calcium",
+    "Scandium", "Titanium", "Vanadium", "Chromium", "Manganese", "Iron", "Cobalt", "Nickel", "Copper", "Zinc",
+    "Gallium", "Germanium", "Arsenic", "Selenium", "Bromine", "Krypton", "Rubidium", "Strontium", "Yttrium",
+    "Zirconium", "Niobium", "Molybdenum", "Technetium", "Ruthenium", "Rhodium", "Palladium", "Silver", "Cadmium",
+    "Indium", "Tin", "Antimony", "Tellurium", "Iodine", "Xenon", "Cesium", "Barium", "Lanthanum", "Cerium",
+    "Praseodymium", "Neodymium", "Promethium", "Samarium", "Europium", "Gadolinium", "Terbium", "Dysprosium", "Holmium",
+    "Erbium", "Thulium", "Ytterbium", "Lutetium", "Hafnium", "Tantalum", "Tungsten", "Rhenium", "Osmium", "Iridium",
+    "Platinum", "Gold", "Mercury", "Thallium", "Lead", "Bismuth", "Polonium", "Astatine", "Radon", "Francium", "Radium",
+    "Actinium", "Thorium", "Protactinium", "Uranium", "Neptunium", "Plutonium", "Americium", "Curium", "Berkelium",
+    "Californium", "Einsteinium", "Fermium", "Mendelevium", "Nobelium", "Lawrencium", "Unnilquadium", "Unnilpentium",
+    "Unnilhexium"]
 
-"""
+r"""
  * Mass density of element in atomic number order.
  *
- * For elment H to Cm (1--96).
+ * For element H to Cm (1--96).
  *
  * In \f$ \gram\per\centi\meter^{3} \f$.
  *
@@ -170,7 +86,8 @@ g_massDensity_g_cm3 = [
     11.850, 11.400, 9.8000, 9.4000, 1.0000, 9.9100, 1.0000, 5.0000,
     10.070, 11.700, 15.400, 18.900, 20.400, 19.800, 13.600, 13.511
 ]
-"""
+
+r"""
  * Atomic weight of element in atomic number order.
  *
  * For element H to Sg (1--106).
@@ -268,57 +185,66 @@ g_plasmonEnergy = [
     25.0, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 15.0,
     15.0, 15.0, 15.0, 15.0
 ]
-def getMassDensity_g_cm3(atomicNumber):
-    index = int(atomicNumber)-1
+
+
+def get_mass_density_g_cm3(atomic_number):
+    index = int(atomic_number) - 1
     return g_massDensity_g_cm3[index]
 
-def getAtomicMass_g_mol(atomicNumber):
-    index = int(atomicNumber)-1
+
+def get_atomic_mass_g_mol(atomic_number):
+    index = int(atomic_number) - 1
     return g_atomicMass_g_mol[index]
 
-def getFermiEnergy_eV(atomicNumber):
-    index = int(atomicNumber)-1
+
+def get_fermi_energy_eV(atomic_number):
+    index = int(atomic_number) - 1
     return g_FermiEnergy[index]
 
-def getKFermi_eV(atomicNumber):
-    index = int(atomicNumber)-1
+
+def get_k_fermi_eV(atomic_number):
+    index = int(atomic_number) - 1
     return g_kFermi[index]
 
-def getPlasmonEnergy_eV(atomicNumber):
-    index = int(atomicNumber)-1
+
+def get_plasmon_energy_eV(atomic_number):
+    index = int(atomic_number) - 1
     return g_plasmonEnergy[index]
 
-def getMeanIonizationEnergy_eV(atomicNumber):
-    """
+
+def get_mean_ionization_energy_eV(atomic_number):
+    r"""
      * Get the mean ionization potential from the atomic number.
      *
      * In \f$ \electronvolt \f$.
      *
-     * @param[in] atomicNumber Atomic number.
+     * @param[in] atomic_number Atomic number.
     """
 
-    if atomicNumber <= 13.0:
-        Value = 11.5*atomicNumber
+    if atomic_number <= 13.0:
+        value = 11.5 * atomic_number
     else:
-        if math.pow(atomicNumber, 0.19) > 0.0:
-            Value = 9.76*atomicNumber + 58.8/math.pow(atomicNumber, 0.19)
+        if math.pow(atomic_number, 0.19) > 0.0:
+            value = 9.76 * atomic_number + 58.8 / math.pow(atomic_number, 0.19)
         else:
-            Value = 0.0
+            value = 0.0
 
-    return Value
+    return value
 
-def getKRatioCorrection(atomicNumber):
+
+def get_k_ratio_correction(atomic_number):
     """
      * Get the constant k ratio correction needed by the mean ionization potential
      * from the atomic number.
      *
-     * @param[in] atomicNumber Atomic number.
+     * @param[in] atomic_number Atomic number.
     """
-    Value = 0.734*math.pow(atomicNumber, 0.037)
+    value = 0.734 * math.pow(atomic_number, 0.037)
 
-    return Value
+    return value
 
-def getKRatioCorrectionMonsel(atomicNumber, workFunction_keV):
+
+def get_k_ratio_correction_monsel(atomic_number, work_function_keV):
     """
 /// K value as defined by Monsel.
 /// Used in DE/DS calculation. Casino uses K Gauvin,but for low energy,
@@ -328,12 +254,13 @@ def getKRatioCorrectionMonsel(atomicNumber, workFunction_keV):
 /// @param element Element for whom we want to calculate the K value.
 /// @return The K value of the element passed in argument
     """
-    value = (0.8576 - (workFunction_keV + 1.0e-3)/getMeanIonizationEnergy_eV(atomicNumber))
+    value = (0.8576 - (work_function_keV + 1.0e-3) / get_mean_ionization_energy_eV(atomic_number))
 
     return value
 
-def computeAtomicDensity_atom_cm3(massDensity_g_cm3, atomicMass_g_mol):
-    """
+
+def compute_atomic_density_atom_cm3(mass_density_g_cm3, atomic_mass_g_mol):
+    r"""
      * Compute the atomic density.
      *
      * \f[
@@ -349,46 +276,54 @@ def computeAtomicDensity_atom_cm3(massDensity_g_cm3, atomicMass_g_mol):
      * \param[in] atomicMass_g_mol
     """
 
-    return g_AvogadroNumber_atom_mol*massDensity_g_cm3/atomicMass_g_mol
+    return g_AvogadroNumber_atom_mol * mass_density_g_cm3 / atomic_mass_g_mol
 
-def getSymbol(atomicNumber):
-    index = int(atomicNumber-1)
+
+def get_symbol(atomic_number):
+    index = int(atomic_number - 1)
     return g_elementSymbol[index]
 
-def getName(atomicNumber):
-    index = int(atomicNumber)-1
+
+def get_name(atomic_number):
+    index = int(atomic_number) - 1
     return g_elementName[index]
 
-def getAtomicNumberBySymbol(symbol):
-        try:
-            return g_elementSymbol.index(symbol.capitalize())+1
-        except ValueError:
-            print(symbol)
 
-def getAtomicNumberByName(name):
-        try:
-            return g_elementName.index(name.capitalize())+1
-        except ValueError:
-            print(name)
+def get_atomic_number_by_symbol(symbol):
+    try:
+        return g_elementSymbol.index(symbol.capitalize()) + 1
+    except ValueError:
+        print(symbol)
 
-def getAtomicNumber(atomicNumber=None, name=None, symbol=None):
-    if atomicNumber != None:
-        return int(atomicNumber)
-    elif name != None:
-        return getAtomicNumberByName(name)
-    elif symbol != None:
-        return getAtomicNumberBySymbol(symbol)
+
+def get_atomic_number_by_name(name):
+    try:
+        return g_elementName.index(name.capitalize()) + 1
+    except ValueError:
+        print(name)
+
+
+def get_atomic_number(atomic_number=None, name=None, symbol=None):
+    if atomic_number is not None:
+        return int(atomic_number)
+    elif name is not None:
+        return get_atomic_number_by_name(name)
+    elif symbol is not None:
+        return get_atomic_number_by_symbol(symbol)
+
 
 def run():
-    print(getMassDensity_g_cm3(24))
-    print(7.19*0.054)
+    print(get_mass_density_g_cm3(24))
+    print(7.19 * 0.054)
 
-def runAtomicNumberSymbol():
-    atomicNumbers = range(1, 92+1, 1)
 
-    for atomicNumber in atomicNumbers:
-        symbol = getSymbol(atomicNumber)
-        print("%s" % (symbol))
+def run_atomic_number_symbol():
+    atomic_numbers = range(1, 92 + 1, 1)
+
+    for atomic_number in atomic_numbers:
+        symbol = get_symbol(atomic_number)
+        print(f"{symbol}")
+
 
 def create_csv_file(output_path):
     print(output_path)
@@ -401,40 +336,32 @@ def create_csv_file(output_path):
     with open(file_path, 'w', newline='\n') as output_file:
         writer = csv.writer(output_file)
 
-        row = ["atomic number"]
-        row.append("symbol")
-        row.append("name")
-        row.append("mass density (g/cm3)")
-        row.append("atomic mass (g/mol)")
-        row.append("Fermi energy (eV)")
-        row.append("k Fermi (eV)")
-        row.append("plasmon energy (eV)")
+        row = ["atomic number", "symbol", "name", "mass density (g/cm3)", "atomic mass (g/mol)", "Fermi energy (eV)",
+               "k Fermi (eV)", "plasmon energy (eV)"]
 
         writer.writerow(row)
 
-        atomic_numbers = range(1, 106+1)
+        atomic_numbers = range(1, 106 + 1)
         for atomic_number in atomic_numbers:
-            row = [atomic_number]
-            row.append(getSymbol(atomic_number))
-            row.append(getName(atomic_number))
+            row = [atomic_number, get_symbol(atomic_number), get_name(atomic_number)]
             try:
-                row.append(getMassDensity_g_cm3(atomic_number))
+                row.append(get_mass_density_g_cm3(atomic_number))
             except IndexError:
                 row.append("")
             try:
-                row.append(getAtomicMass_g_mol(atomic_number))
+                row.append(get_atomic_mass_g_mol(atomic_number))
             except IndexError:
                 row.append("")
             try:
-                row.append(getFermiEnergy_eV(atomic_number))
+                row.append(get_fermi_energy_eV(atomic_number))
             except IndexError:
                 row.append("")
             try:
-                row.append(getKFermi_eV(atomic_number))
+                row.append(get_k_fermi_eV(atomic_number))
             except IndexError:
                 row.append("")
             try:
-                row.append(getPlasmonEnergy_eV(atomic_number))
+                row.append(get_plasmon_energy_eV(atomic_number))
             except IndexError:
                 row.append("")
 

@@ -204,9 +204,9 @@ def _interpolationComparisonRutherford(atomicNumbers, energies_eV):
     #pdf = PdfPages('Interpolation_Czyzewski90_total_atomicNumber.pdf')
 
     totalModels = {}
-    #totalModels['BornWentzel'] = RutherfordReimerTem.totalElasticCrossSectionBornWentzel
-    #totalModels['QuantumApproximation'] = RutherfordReimerTem.totalElasticCrossSectionQuantumApproximation_nm2
-    totalModels['RSRutherford'] = RutherfordReimerTem.totalRelativisticScreenedElasticCrossSectionHenocMaurice_nm2
+    #totalModels['BornWentzel'] = RutherfordReimerTem.total_elastic_cross_section_born_wentzel
+    #totalModels['QuantumApproximation'] = RutherfordReimerTem.total_elastic_cross_section_quantum_approximation_nm2
+    totalModels['RSRutherford'] = RutherfordReimerTem.total_relativistic_screened_elastic_cross_section_henoc_maurice_nm2
 
     for totalModelName in totalModels:
         logging.info("Total model: %s", totalModelName)

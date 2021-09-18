@@ -65,9 +65,9 @@ def compare_total():
 
     casino_energies_keV = []
     totals_nm2 = []
-    for data in elsepa_file._elsCSInfoList:
+    for data in elsepa_file._els_cs_info_list:
         energy_keV = data._energy_keV
-        total_nm2 = data._totalCS_nm2
+        total_nm2 = data._total_cs_nm2
 
         casino_energies_keV.append(energy_keV)
         totals_nm2.append(total_nm2)

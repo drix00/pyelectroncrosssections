@@ -51,12 +51,12 @@ def test_read_file(el29_file_path):
     els_cs_info  = ElsepaCrossSectionInfo()
     els_cs_info .read_file(file)
 
-    assert 30105020 == els_cs_info ._fileVersion
-    assert 29 == els_cs_info ._atomicNumber
+    assert 30105020 == els_cs_info ._file_version
+    assert 29 == els_cs_info ._atomic_number
     assert 1.000000e-01 == approx(els_cs_info ._energy_keV)
-    assert 2.870967e-02 == approx(els_cs_info ._totalCS_nm2)
+    assert 2.870967e-02 == approx(els_cs_info ._total_cs_nm2)
 
-    assert 606 == els_cs_info ._numberPoints
+    assert 606 == els_cs_info ._number_points
 
     assert 0.0 == approx(els_cs_info ._ratios[0])
     assert 0.0 == approx(els_cs_info ._theta_rad[0])

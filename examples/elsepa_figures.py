@@ -43,9 +43,9 @@ def run():
         filepath = os.path.join(path, filename)
         elsepaFile = ElsepaBinaryFile.ElsepaBinaryFile(filepath)
 
-        for data in elsepaFile._elsCSInfoList:
+        for data in elsepaFile._els_cs_info_list:
             energy_keV = data._energy_keV
-            total = data._totalCS_nm2
+            total = data._total_cs_nm2
 
             totalCS_nm2[atomicNumber][energy_keV] = total
 

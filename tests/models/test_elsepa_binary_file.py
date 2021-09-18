@@ -54,15 +54,15 @@ def test_read_file(el29_file_path, el29_file):
     file = open(el29_file_path, 'rb')
     el29_file.read_file(file)
 
-    assert 48 == len(el29_file._elsCSInfoList)
+    assert 48 == len(el29_file._els_cs_info_list)
 
-    els_cs_info = el29_file._elsCSInfoList[0]
-    assert 30105020 == els_cs_info._fileVersion
-    assert 29 == els_cs_info._atomicNumber
+    els_cs_info = el29_file._els_cs_info_list[0]
+    assert 30105020 == els_cs_info._file_version
+    assert 29 == els_cs_info._atomic_number
     assert 1.000000e-01 == approx(els_cs_info._energy_keV)
-    assert 2.870967e-02 == approx(els_cs_info._totalCS_nm2)
+    assert 2.870967e-02 == approx(els_cs_info._total_cs_nm2)
 
-    assert 606 == els_cs_info._numberPoints
+    assert 606 == els_cs_info._number_points
 
     assert 0.0 == approx(els_cs_info._ratios[0])
     assert 0.0 == approx(els_cs_info._theta_rad[0])
@@ -70,13 +70,13 @@ def test_read_file(el29_file_path, el29_file):
     assert 1.0 == approx(els_cs_info._ratios[-1])
     assert 3.1415926539 == approx(els_cs_info._theta_rad[-1])
 
-    els_cs_info = el29_file._elsCSInfoList[-1]
-    assert 30105020 == els_cs_info._fileVersion
-    assert 29 == els_cs_info._atomicNumber
+    els_cs_info = el29_file._els_cs_info_list[-1]
+    assert 30105020 == els_cs_info._file_version
+    assert 29 == els_cs_info._atomic_number
     assert 500.0 == approx(els_cs_info._energy_keV)
-    assert 0.000247381469262322 == approx(els_cs_info._totalCS_nm2)
+    assert 0.000247381469262322 == approx(els_cs_info._total_cs_nm2)
 
-    assert 606 == els_cs_info._numberPoints
+    assert 606 == els_cs_info._number_points
 
     assert 0.0 == approx(els_cs_info._ratios[0])
     assert 0.0 == approx(els_cs_info._theta_rad[0])

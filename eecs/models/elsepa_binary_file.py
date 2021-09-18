@@ -2,14 +2,14 @@
 # -*- coding: utf-8 -*-
 
 """
-.. py:currentmodule:: pyElectronCrossSection.models.ElsepaCrossSectionInfo
-
+.. py:currentmodule:: eecs.models.elsepa_binary_file
 .. moduleauthor:: Hendrix Demers <hendrix.demers@mail.mcgill.ca>
 
-
+Description
 """
 
-# Copyright 2019 Hendrix Demers
+###############################################################################
+# Copyright 2021 Hendrix Demers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+###############################################################################
 
 # Standard library modules.
 import struct
@@ -30,9 +31,9 @@ import logging
 # Third party modules.
 
 # Local modules.
-import eecs.models.elsepa_cross_section_info as ElsepaCrossSectionInfo
 
 # Project modules.
+from eecs.models.elsepa_cross_section_info import ElsepaCrossSectionInfo
 
 # Globals and constants variables.
 
@@ -40,16 +41,18 @@ import eecs.models.elsepa_cross_section_info as ElsepaCrossSectionInfo
 class ElsepaBinaryFile:
     def __init__(self, filepath):
         self._filepath = filepath
+        self._els_cs_info_list = []
+
         file = open(self._filepath, 'rb')
         self.read_file(file)
 
     def read_file(self, file):
-        self._elsCSInfoList = []
+        self._els_cs_info_list = []
         while file:
             try:
-                elsepa_cs_info = ElsepaCrossSectionInfo.ElsepaCrossSectionInfo()
+                elsepa_cs_info = ElsepaCrossSectionInfo()
                 elsepa_cs_info.read_file(file)
-                self._elsCSInfoList.append(elsepa_cs_info)
+                self._els_cs_info_list.append(elsepa_cs_info)
             except struct.error as message:
                 logging.error(message)
                 return

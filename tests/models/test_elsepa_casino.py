@@ -73,9 +73,9 @@ def test_zip_filepath():
     file_name = "../../test_data/ELSEPA_AbsorptionCorrection_LinearInterpolationTabulation_0.1.zip"
     zip_filepath = get_current_module_path(__file__, file_name)
     cross_section = eecs.models.elsepa_casino.ElsepaCasino(zip_filepath)
-    assert zip_filepath == cross_section.zipfilepath
+    assert zip_filepath == cross_section.zip_filepath
 
-    assert os.path.isfile(cross_section.zipfilepath)
+    assert os.path.isfile(cross_section.zip_filepath)
 
 
 def test_total_nm2(casino_cross_section):

@@ -76,17 +76,17 @@ def create_path(path):
 
 
 def csv2txt(filename, verbose=False):
-    txtFilename = os.path.splitext(filename)[0] + '.txt'
+    txt_filename = os.path.splitext(filename)[0] + '.txt'
     if verbose:
-        print ('Transform %s to %s.', (filename, txtFilename))
+        print('Transform %s to %s.', (filename, txt_filename))
 
-    txtFile = open(txtFilename, 'wt')
+    txt_file = open(txt_filename, 'wt')
 
     reader = csv.reader(open(filename, 'rt'))
 
     for row in reader:
         line = '\t'.join(row)
         line += '\n'
-        txtFile.write(line)
+        txt_file.write(line)
 
-    txtFile.close()
+    txt_file.close()
